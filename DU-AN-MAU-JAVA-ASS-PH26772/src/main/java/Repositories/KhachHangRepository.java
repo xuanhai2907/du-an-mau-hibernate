@@ -32,7 +32,7 @@ public class KhachHangRepository implements KhachHangInterface
     }
 
     @Override
-    public void update(UUID vitri, KhachHang kh) {
+    public void update( KhachHang kh,UUID vitri) {
         Session session = Utilities.HibernateUtil.getSessionFactory().openSession();
         KhachHang khachhang = session.get(KhachHang.class, vitri);
         

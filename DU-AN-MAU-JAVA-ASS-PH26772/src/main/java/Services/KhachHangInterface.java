@@ -12,6 +12,6 @@ import DomainModels.KhachHang;
 public interface KhachHangInterface {
     public List<KhachHang> getList();
     public void insert(KhachHang kh);
-    public void update(UUID vitri, KhachHang kh);
+    public void update( KhachHang kh,UUID vitri);
     public void delete(UUID vitri);
 }
