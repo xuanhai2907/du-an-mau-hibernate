@@ -67,6 +67,6 @@ public class HoaDon implements Serializable{
     @Column(name = "Sdt", length = 30)
     private String sdt;
     
-    @OneToMany(mappedBy = "hoaDon", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idHoaDon", fetch = FetchType.LAZY)
     private List<HoaDonChiTiet> listHDCT;
 }

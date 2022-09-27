@@ -30,20 +30,20 @@ public class ChiTietSP implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "id", columnDefinition = "uniqueidentifier")
+    @Column(name = "Id", columnDefinition = "uniqueidentifier")
     private UUID id;
 
     @ManyToOne(fetch = FetchType.EAGER )
-    @JoinColumn(name = "id" ,insertable=false, updatable=false)
+    @JoinColumn(name = "IdSP" ,insertable=false, updatable=false)
     private SanPham idSP;  
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id",insertable=false, updatable=false)
+    @JoinColumn(name = "IdNsx",insertable=false, updatable=false)
     private NSX idNsx;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id",insertable=false, updatable=false)
+    @JoinColumn(name = "IdMauSac",insertable=false, updatable=false)
     private MauSac idMauSac;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id",insertable=false, updatable=false)
+    @JoinColumn(name = "IdDongSP",insertable=false, updatable=false)
     private DongSP idDongSP;
 
     @Column(name = "NamBH")
@@ -61,10 +61,10 @@ public class ChiTietSP implements Serializable {
     @Column(name = "GiaBan")
     private BigDecimal giaBan;
 
-    @OneToMany(mappedBy = "chiTietSP",  fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idChiTietSP",  fetch = FetchType.LAZY)
     private List<GioHangChiTiet> listGHCT;
     
-    @OneToMany(mappedBy = "chiTietSP", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idChiTietSP", fetch = FetchType.LAZY)
     private List<HoaDonChiTiet> listHDCT;
     
 
