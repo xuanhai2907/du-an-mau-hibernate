@@ -34,7 +34,7 @@ public class GioHang implements Serializable {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "IdKH", insertable = false, updatable = false)
     private KhachHang idKH;
 
     @Column(name = "idNV")
@@ -61,6 +61,6 @@ public class GioHang implements Serializable {
     @Column(name = "TinhTrang")
     private int tinhTrang;
 
-    @OneToMany(mappedBy = "gioHang", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idGioHang", fetch = FetchType.LAZY)
     private List<GioHangChiTiet> listGHCT;
 }

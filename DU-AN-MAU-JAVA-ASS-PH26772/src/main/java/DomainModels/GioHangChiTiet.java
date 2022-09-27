@@ -6,12 +6,11 @@ package DomainModels;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -24,19 +23,18 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "GioHangChiTiet")
+@IdClass(GioHangChiTietId.class)
 public class GioHangChiTiet implements Serializable {
-
+    
     @Id
-    @GeneratedValue
-    @Column(name = "id", columnDefinition = "uniqueidentifier")
-    private UUID id;
-
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id", insertable = false, updatable = false)
-    private GioHang gioHang;
+    @JoinColumn(name = "IdGioHang", insertable = false, updatable = false)
+    private GioHang idGioHang;
+    
+    @Id
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id",insertable=false, updatable=false)
-    private ChiTietSP chiTietSP;
+    @JoinColumn(name = "IdChiTietSP",insertable=false, updatable=false)
+    private ChiTietSP idChiTietSP;
 
     @Column(name = "SoLuong")
     private int soLuong;
