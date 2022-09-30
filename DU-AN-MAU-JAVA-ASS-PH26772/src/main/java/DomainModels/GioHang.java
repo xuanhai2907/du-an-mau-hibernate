@@ -37,7 +37,8 @@ public class GioHang implements Serializable {
     @JoinColumn(name = "IdKH", insertable = false, updatable = false)
     private KhachHang idKH;
 
-    @Column(name = "idNV")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "IdNV", insertable = false, updatable = false)
     private NhanVien idNV;
 
     @Column(name = "Ma", length = 20)

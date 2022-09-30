@@ -54,12 +54,17 @@ public class NhanVien implements Serializable{
     @Column(name = "MatKhau")
     private String matKhau;
     
+    @Column(name = "DiaChi")
+    private String diaChi;
+    
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id",insertable=false, updatable=false)
+    @JoinColumn(name = "IdCH",insertable=false, updatable=false)
     private CuaHang idCH;   
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "IdCV",insertable=false, updatable=false)
     private ChucVu idCV;
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "IdGuiBC",insertable=false, updatable=false)
     private NhanVien idGuiBC;
