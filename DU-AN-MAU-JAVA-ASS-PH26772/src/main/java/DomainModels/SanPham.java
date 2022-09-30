@@ -37,7 +37,7 @@ public class SanPham implements Serializable {
     private String ten;
     
     @OneToMany(mappedBy = "idSP", fetch = FetchType.LAZY)
-    private List<ChiTietSP> listcChiTietSP;
+    private List<ChiTietSP> listChiTietSP;
 
     public SanPham(String ma, String ten) {
         this.ma = ma;

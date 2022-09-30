@@ -34,11 +34,12 @@ public class HoaDon implements Serializable{
     private UUID id;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id",insertable=false, updatable=false)
+    @JoinColumn(name = "IdKH",insertable=false, updatable=false)
     private KhachHang idKH;
     
-    @Column(name = "idNV")
-    private UUID idNhanVien;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "IdNV",insertable=false, updatable=false)
+    private NhanVien idNhanVien;
     
     @Column(name = "Ma" , length = 20)
     private String ma;
