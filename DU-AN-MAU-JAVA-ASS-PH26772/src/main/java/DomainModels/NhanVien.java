@@ -58,15 +58,15 @@ public class NhanVien implements Serializable{
     private String diaChi;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdCH",insertable=false, updatable=false)
+    @JoinColumn(name = "IdCH",nullable = false)
     private CuaHang idCH;   
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdCV",insertable=false, updatable=false)
+    @JoinColumn(name = "IdCV",nullable = false)
     private ChucVu idCV;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdGuiBC",insertable=false, updatable=false)
+    @JoinColumn(name = "IdGuiBC",nullable = false)
     private NhanVien idGuiBC;
     
     @Column(name = "TrangThai")

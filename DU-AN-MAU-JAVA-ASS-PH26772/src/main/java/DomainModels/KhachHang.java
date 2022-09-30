@@ -17,10 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 
-/**
- *
- * @author vinhnv
- */
 @Entity
 @Data
 @Table(name = "KhanhHang")
@@ -28,7 +24,7 @@ public class KhachHang implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "id", columnDefinition = "uniqueidentifier")
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "Ma", length = 20)
@@ -63,10 +59,24 @@ public class KhachHang implements Serializable {
 
     @OneToMany(mappedBy = "idKH", fetch = FetchType.LAZY)
     private List<GioHang> listGioHang;
-    
+
     @OneToMany(mappedBy = "idKH", fetch = FetchType.LAZY)
     private List<HoaDon> listHoaDon;
 
-    
+    public KhachHang(String ma, String ten, String tenDem, String ho, Date ngaySinh, String sdt, String diaChi, String thanhPho, String quocGia, String matKhau) {
+        this.ma = ma;
+        this.ten = ten;
+        this.tenDem = tenDem;
+        this.ho = ho;
+        this.ngaySinh = ngaySinh;
+        this.sdt = sdt;
+        this.diaChi = diaChi;
+        this.thanhPho = thanhPho;
+        this.quocGia = quocGia;
+        this.matKhau = matKhau;
+    }
+
+    public KhachHang() {
+    }
 
 }

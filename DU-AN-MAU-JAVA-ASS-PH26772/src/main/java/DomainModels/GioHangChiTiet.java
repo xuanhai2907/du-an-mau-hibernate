@@ -16,10 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
 
-/**
- *
- * @author vinhnv
- */
+
 @Entity
 @Data
 @Table(name = "GioHangChiTiet")
@@ -33,7 +30,7 @@ public class GioHangChiTiet implements Serializable {
     
     @Id
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdChiTietSP",insertable=false, updatable=false)
+    @JoinColumn(name = "IdChiTietSP",nullable = false)
     private ChiTietSP idChiTietSP;
 
     @Column(name = "SoLuong")

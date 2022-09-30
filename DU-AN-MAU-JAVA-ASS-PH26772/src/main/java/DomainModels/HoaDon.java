@@ -19,10 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 
-/**
- *
- * @author vinhnv
- */
+
 @Entity
 @Data
 @Table(name = "HoaDon")
@@ -30,15 +27,15 @@ public class HoaDon implements Serializable{
     
     @Id
     @GeneratedValue
-    @Column(name = "id", columnDefinition = "uniqueidentifier")
+    @Column(name = "id")
     private UUID id;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdKH",insertable=false, updatable=false)
+    @JoinColumn(name = "IdKH",nullable = false)
     private KhachHang idKH;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdNV",insertable=false, updatable=false)
+    @JoinColumn(name = "IdNV",nullable = false)
     private NhanVien idNhanVien;
     
     @Column(name = "Ma" , length = 20)
@@ -70,4 +67,38 @@ public class HoaDon implements Serializable{
     
     @OneToMany(mappedBy = "idHoaDon", fetch = FetchType.LAZY)
     private List<HoaDonChiTiet> listHDCT;
+
+//    public HoaDon(String ma, Date ngaytaoo, Date ngaythanhtoann, Date ngayshipp, Date ngaynhann, int tinhtrangg, String tenNguoiNhan, String diaChi, String sdt, KhachHang idKh, NhanVien idNV) {
+//    }
+
+    public HoaDon() {
+    }
+
+    public HoaDon(KhachHang idKH, NhanVien idNhanVien, String ma, Date ngayTao, Date ngayThanhToan, Date ngayShip, Date ngayNhan, int tinhTrang, String tenNguoiNhan, String diaChhi, String sdt) {
+        this.idKH = idKH;
+        this.idNhanVien = idNhanVien;
+        this.ma = ma;
+        this.ngayTao = ngayTao;
+        this.ngayThanhToan = ngayThanhToan;
+        this.ngayShip = ngayShip;
+        this.ngayNhan = ngayNhan;
+        this.tinhTrang = tinhTrang;
+        this.tenNguoiNhan = tenNguoiNhan;
+        this.diaChhi = diaChhi;
+        this.sdt = sdt;
+    }
+    
+        public HoaDon(String ma, Date ngayTao, Date ngayThanhToan, Date ngayShip, Date ngayNhan, int tinhTrang, String tenNguoiNhan, String diaChhi, String sdt,KhachHang idKH, NhanVien idNhanVien) {
+        this.ma = ma;
+        this.ngayTao = ngayTao;
+        this.ngayThanhToan = ngayThanhToan;
+        this.ngayShip = ngayShip;
+        this.ngayNhan = ngayNhan;
+        this.tinhTrang = tinhTrang;
+        this.tenNguoiNhan = tenNguoiNhan;
+        this.diaChhi = diaChhi;
+        this.sdt = sdt;
+        this.idKH = idKH;
+        this.idNhanVien = idNhanVien;
+    }
 }

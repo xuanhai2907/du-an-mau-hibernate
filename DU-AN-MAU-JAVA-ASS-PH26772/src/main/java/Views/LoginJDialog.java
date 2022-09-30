@@ -7,6 +7,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.UIManager;
 import Services.NhanVienService;
 import Services.ServiceImpl.NhanVienServiceImpl;
+import java.util.UUID;
 
 public class LoginJDialog extends javax.swing.JDialog {
 
@@ -29,7 +30,7 @@ public class LoginJDialog extends javax.swing.JDialog {
     void login() {
         String manv = txtUser.getText();
         String password = new String(txtPassword.getPassword());
-        NhanVien nhanVien = nhanVienService.getNhanVienById(manv);
+        NhanVien nhanVien = nhanVienService.getNhanVienByMa(manv);
         if (nhanVien == null) {
             MsgBox.alert(this, "Wrong username!");
         } else if (!password.equals(nhanVien.getMatKhau())) {
@@ -257,6 +258,9 @@ public class LoginJDialog extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        NhanVien nv = new NhanVien();
+        
+        System.out.println(nv.getId()+ nv.getMa());
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

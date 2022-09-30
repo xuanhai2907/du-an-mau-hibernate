@@ -16,14 +16,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 
-/**
- *
- * @author vinhnv
- */
 @Entity
 @Data
 @Table(name = "MauSac")
-public class MauSac implements Serializable{
+public class MauSac implements Serializable {
 
     @Id
     @GeneratedValue
@@ -38,4 +34,31 @@ public class MauSac implements Serializable{
 
     @OneToMany(mappedBy = "idMauSac", fetch = FetchType.LAZY)
     private List<ChiTietSP> listcChiTietSP;
+
+    public MauSac(String ma, String ten) {
+        this.ma = ma;
+        this.ten = ten;
+    }
+
+    public MauSac(String ma) {
+        this.ma = ma;
+    }
+
+    public MauSac(UUID id) {
+        this.id = id;
+    }
+
+    public MauSac(UUID id, String ma, String ten) {
+        this.id = id;
+        this.ma = ma;
+        this.ten = ten;
+    }
+
+    public MauSac() {
+    }
+
+    public Object[] toRowData() {
+        return new Object[]{id, ma, ten};
+    }
+
 }

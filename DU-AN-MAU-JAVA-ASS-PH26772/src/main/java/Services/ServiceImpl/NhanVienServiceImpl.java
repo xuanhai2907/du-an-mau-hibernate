@@ -7,6 +7,8 @@ package Services.ServiceImpl;
 import DomainModels.NhanVien;
 import Repositories.NhanVienRepository;
 import Services.NhanVienService;
+import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -19,10 +21,20 @@ public class NhanVienServiceImpl implements NhanVienService{
     public NhanVienServiceImpl(){
         repo = new NhanVienRepository();
     }
-    
+
+    @Override
+    public NhanVien getNhanVienByMa(String ma) {
+        return  repo.getNhanVienByMa(ma);
+    }
+        
     @Override
     public NhanVien getNhanVienById(String ma) {
         return repo.getNhanVienById(ma);
+    }
+
+    @Override
+    public List<NhanVien> getList() {
+        return repo.getList();
     }
     
 }

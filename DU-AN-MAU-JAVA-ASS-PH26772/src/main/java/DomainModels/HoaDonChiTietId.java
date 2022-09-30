@@ -9,10 +9,7 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- *
- * @author QUOC HUY
- */
+
 @Setter
 @Getter
 public class HoaDonChiTietId implements Serializable{
