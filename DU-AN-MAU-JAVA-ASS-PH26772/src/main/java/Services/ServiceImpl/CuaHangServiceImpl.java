@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author asus
  */
-public class CuaHangImpl implements CuaHangSerivce {
+public class CuaHangServiceImpl implements CuaHangSerivce {
 
     private CuaHangRepository rp = new CuaHangRepository();
 

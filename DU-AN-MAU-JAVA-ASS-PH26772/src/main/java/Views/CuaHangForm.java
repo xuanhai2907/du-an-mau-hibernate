@@ -3,7 +3,7 @@ package Views;
 
 import DomainModels.CuaHang;
 import Services.CuaHangSerivce;
-import Services.ServiceImpl.CuaHangImpl;
+import Services.ServiceImpl.CuaHangServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +15,7 @@ public class CuaHangForm extends javax.swing.JFrame {
 
     private DefaultTableModel dtm = new DefaultTableModel();
     private List<CuaHang> listCh = new ArrayList<>();
-    private CuaHangSerivce serivce = new CuaHangImpl();
+    private CuaHangSerivce serivce = new CuaHangServiceImpl();
     public CuaHangForm() {
         initComponents();
         jTable1.setModel(dtm);

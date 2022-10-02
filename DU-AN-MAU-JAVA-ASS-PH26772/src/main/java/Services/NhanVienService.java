@@ -21,4 +21,10 @@ public interface NhanVienService {
 
     public List<NhanVien> getList();
 
+    public void Insert(NhanVien nhanVien);
+
+    public void Update(NhanVien nhanVien);
+
+    public void Delete(NhanVien id);
+
 }
