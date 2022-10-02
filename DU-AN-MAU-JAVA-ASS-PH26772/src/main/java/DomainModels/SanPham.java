@@ -7,6 +7,7 @@ package DomainModels;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
+import java.util.Vector;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,10 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 
-/**
- *
- * @author vinhnv
- */
+
 @Entity
 @Data
 @Table(name = "SanPham")
@@ -46,6 +44,23 @@ public class SanPham implements Serializable {
 
     public SanPham() {
     }
+
+    public SanPham(String ma) {
+    }
+
+    public SanPham(UUID id, String ma, String ten) {
+        this.id = id;
+        this.ma = ma;
+        this.ten = ten;
+    }
+    
+
+    public Object[] toRowData() {
+        return new Object[]{id, ma, ten};
+    }
+
+    
+
     
     
 }

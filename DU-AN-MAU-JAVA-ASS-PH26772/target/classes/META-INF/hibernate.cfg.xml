@@ -45,6 +45,7 @@
         <mapping class = "DomainModels.ChiTietSP"/>
         <mapping class = "DomainModels.GioHangChiTiet"/>
         <mapping class = "DomainModels.HoaDonChiTiet"/>
+        <!--<mapping class = "ViewModels.ViewModelsChiTietSanPham"/>-->
         
     </session-factory>
 </hibernate-configuration>

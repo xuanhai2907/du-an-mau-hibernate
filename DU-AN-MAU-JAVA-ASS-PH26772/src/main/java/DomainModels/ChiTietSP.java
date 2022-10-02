@@ -19,10 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 
-/**
- *
- * @author vinhnv
- */
+
 @Entity
 @Data
 @Table(name = "ChiTietSP")
@@ -34,16 +31,16 @@ public class ChiTietSP implements Serializable {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.EAGER )
-    @JoinColumn(name = "IdSP" ,insertable=false, updatable=false)
+    @JoinColumn(name = "IdSP", nullable = false)
     private SanPham idSP;  
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdNsx",insertable=false, updatable=false)
+    @JoinColumn(name = "IdNsx",nullable = false)
     private NSX idNsx;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdMauSac",insertable=false, updatable=false)
+    @JoinColumn(name = "IdMauSac",nullable = false)
     private MauSac idMauSac;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdDongSP",insertable=false, updatable=false)
+    @JoinColumn(name = "IdDongSP",nullable = false)
     private DongSP idDongSP;
 
     @Column(name = "NamBH")

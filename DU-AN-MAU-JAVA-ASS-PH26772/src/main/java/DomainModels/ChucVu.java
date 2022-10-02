@@ -16,10 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 
-/**
- *
- * @author vinhnv
- */
+
 @Entity
 @Data
 @Table(name = "ChucVu")
@@ -38,4 +35,12 @@ public class ChucVu implements Serializable {
     
     @OneToMany(mappedBy = "idCV" , fetch = FetchType.LAZY)
     private List<NhanVien> listNhanVien;
+
+    public ChucVu() {
+    }
+
+    public ChucVu(String ma, String ten) {
+        this.ma = ma;
+        this.ten = ten;
+    }
 }

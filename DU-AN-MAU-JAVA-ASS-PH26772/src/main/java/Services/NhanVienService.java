@@ -5,13 +5,20 @@
 package Services;
 
 import DomainModels.NhanVien;
+import java.util.List;
+import java.util.UUID;
 
 /**
  *
  * @author window
  */
 public interface NhanVienService {
-    
+
+//    public NhanVien getNhanVienById(String ma);
+    public NhanVien getNhanVienByMa(String ma);
+
     public NhanVien getNhanVienById(String ma);
-    
+
+    public List<NhanVien> getList();
+
 }

@@ -16,10 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
 
-/**
- *
- * @author vinhnv
- */
+
 @Entity
 @Data
 @Table(name = "HoaDonChiTiet")

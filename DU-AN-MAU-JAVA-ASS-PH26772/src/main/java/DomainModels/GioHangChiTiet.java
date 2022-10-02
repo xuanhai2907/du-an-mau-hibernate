@@ -16,10 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
 
-/**
- *
- * @author vinhnv
- */
+
 @Entity
 @Data
 @Table(name = "GioHangChiTiet")
@@ -33,7 +30,7 @@ public class GioHangChiTiet implements Serializable {
     
     @Id
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdChiTietSP",insertable=false, updatable=false)
+    @JoinColumn(name = "IdChiTietSP",nullable = false)
     private ChiTietSP idChiTietSP;
 
     @Column(name = "SoLuong")
@@ -44,4 +41,15 @@ public class GioHangChiTiet implements Serializable {
 
     @Column(name = "DonGiaKhiGiam")
     private BigDecimal donGiaKhiGiam;
+
+    public GioHangChiTiet(GioHang idGioHang, ChiTietSP idChiTietSP, int soLuong, BigDecimal donGia, BigDecimal donGiaKhiGiam) {
+        this.idGioHang = idGioHang;
+        this.idChiTietSP = idChiTietSP;
+        this.soLuong = soLuong;
+        this.donGia = donGia;
+        this.donGiaKhiGiam = donGiaKhiGiam;
+    }
+
+    public GioHangChiTiet() {
+    }
 }

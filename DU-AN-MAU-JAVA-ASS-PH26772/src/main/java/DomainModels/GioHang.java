@@ -19,10 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 
-/**
- *
- * @author vinhnv
- */
 @Entity
 @Data
 @Table(name = "GioHang")
@@ -34,11 +30,11 @@ public class GioHang implements Serializable {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdKH", insertable = false, updatable = false)
+    @JoinColumn(name = "IdKH", nullable = false)
     private KhachHang idKH;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdNV", insertable = false, updatable = false)
+    @JoinColumn(name = "IdNV", nullable = false)
     private NhanVien idNV;
 
     @Column(name = "Ma", length = 20)
@@ -64,4 +60,20 @@ public class GioHang implements Serializable {
 
     @OneToMany(mappedBy = "idGioHang", fetch = FetchType.LAZY)
     private List<GioHangChiTiet> listGHCT;
+
+    public GioHang(KhachHang idKH, NhanVien idNV, String ma, Date ngayTao, Date ngayThanhToan, String tenNguoiNhan, String diaChhi, String sdt, int tinhTrang) {
+        this.idKH = idKH;
+        this.idNV = idNV;
+        this.ma = ma;
+        this.ngayTao = ngayTao;
+        this.ngayThanhToan = ngayThanhToan;
+        this.tenNguoiNhan = tenNguoiNhan;
+        this.diaChhi = diaChhi;
+        this.sdt = sdt;
+        this.tinhTrang = tinhTrang;
+    }
+
+    public GioHang() {
+    }
+
 }
