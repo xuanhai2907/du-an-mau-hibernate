@@ -14,4 +14,5 @@ import java.util.List;
  */
 public interface ChiTietSanPhamService {
     public List<ViewModelsChiTietSanPham> getAll(String ten);
+    public List<ChiTietSP> getList();
 }

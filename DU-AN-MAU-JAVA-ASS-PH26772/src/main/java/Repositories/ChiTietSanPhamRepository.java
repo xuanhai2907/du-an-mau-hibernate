@@ -4,10 +4,12 @@
  */
 package Repositories;
 
+import DomainModels.ChiTietSP;
 import Utilities.HibernateUtil;
 import ViewModels.ViewModelsChiTietSanPham;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Query;
 import org.hibernate.Session;
 
 /**
@@ -33,6 +35,13 @@ public class ChiTietSanPhamRepository {
         List<ViewModelsChiTietSanPham> list = query.getResultList();
         System.out.println(list.size());
         session.close();
-            return list;
+        return list;
+    }
+
+    public List<ChiTietSP> getList() {
+        Session session = Utilities.HibernateUtil.getSessionFactory().openSession();
+        Query query = session.createQuery("From ChiTietSP");
+        List<ChiTietSP> ls = query.getResultList();
+        return ls;
     }
 }

@@ -26,5 +26,10 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService{
     public List<ViewModelsChiTietSanPham> getAll(String ten) {
         return new ChiTietSanPhamRepository().getAll(ten);
     }
+
+    @Override
+    public List<ChiTietSP> getList() {
+        return new ChiTietSanPhamRepository().getList();
+    }
     
 }
