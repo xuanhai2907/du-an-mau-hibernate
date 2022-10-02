@@ -7,6 +7,7 @@ package DomainModels;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
+import java.util.Vector;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -44,4 +45,30 @@ public class CuaHang implements Serializable{
     
     @OneToMany(mappedBy = "idCH" , fetch = FetchType.LAZY)
     private List<NhanVien> listNhanVien;
+
+    public CuaHang(String ma) {
+    }
+
+    public CuaHang() {
+    }
+
+    public Object[] toRowData(){
+        return new Object[]{id,ma,ten,diaChi,thanhPho,quocGia};
+    }
+        public CuaHang(UUID id, String ma, String ten, String diaChi, String thanhPho, String quocGia) {
+        this.id = id;
+        this.ma = ma;
+        this.ten = ten;
+        this.diaChi = diaChi;
+        this.thanhPho = thanhPho;
+        this.quocGia = quocGia;
+    }
+
+    public CuaHang(String ma, String ten, String diaChi, String thanhPho, String quocGia) {
+        this.ma = ma;
+        this.ten = ten;
+        this.diaChi = diaChi;
+        this.thanhPho = thanhPho;
+        this.quocGia = quocGia;
+    }
 }

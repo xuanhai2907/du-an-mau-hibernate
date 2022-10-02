@@ -37,4 +37,19 @@ public class NhanVienServiceImpl implements NhanVienService{
         return repo.getList();
     }
     
+     @Override
+    public void Insert(NhanVien nhanVien) {
+        repo.Insert(nhanVien);
+    }
+
+    @Override
+    public void Update(NhanVien nhanVien) {
+        repo.Update(nhanVien);
+    }
+
+    @Override
+    public void Delete(NhanVien id) {
+        repo.Delete(id);
+    }
+    
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -47,5 +48,32 @@ public class NhanVienRepository {
         session.close();
         return list;
 
+    }
+        public void Insert(NhanVien nhanVien) {
+       Transaction transaction = null;
+        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.save(nhanVien);
+            transaction.commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void Update(NhanVien nhanVien) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.getTransaction().begin();
+        session.update(nhanVien);
+        session.getTransaction().commit();
+        session.close();
+
+    }
+    public void Delete(NhanVien id){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.getTransaction().begin();
+        session.delete(id);
+        session.getTransaction().commit();
+        session.close();
     }
 }
