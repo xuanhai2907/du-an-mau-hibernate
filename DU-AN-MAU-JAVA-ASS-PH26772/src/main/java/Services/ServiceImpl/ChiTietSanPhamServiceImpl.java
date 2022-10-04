@@ -14,22 +14,47 @@ import java.util.List;
  *
  * @author window
  */
-public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService{
+public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
 
-//    private ChiTietSanPhamRepository re;
-//    
-//    public ChiTietSanPhamServiceImpl() {
-//        this.re = new ChiTietSanPhamRepository();
-//    }
-    
+    private ChiTietSanPhamRepository repository;
+
+    public ChiTietSanPhamServiceImpl() {
+        this.repository = new ChiTietSanPhamRepository();
+    }
+
     @Override
     public List<ViewModelsChiTietSanPham> getAll(String ten) {
-        return new ChiTietSanPhamRepository().getAll(ten);
+        return repository.getAll(ten);
     }
 
     @Override
     public List<ChiTietSP> getList() {
-        return new ChiTietSanPhamRepository().getList();
+        return repository.getList();
     }
-    
+
+    @Override
+    public List<ChiTietSP> getAll() {
+        return repository.getAll();
+    }
+
+    @Override
+    public ChiTietSP them(ChiTietSP ctSP) {
+        return repository.them(ctSP);
+    }
+
+    @Override
+    public String xoa(ChiTietSP ctSP, String moTa) {
+        return repository.xoa(ctSP, moTa);
+    }
+
+    @Override
+    public String sua(ChiTietSP ctSP) {
+        boolean test = repository.sua(ctSP);
+        if (test) {
+            return "Sửa thành công";
+        } else {
+            return "Sửa thất bại";
+        }
+    }
+
 }

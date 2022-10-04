@@ -12,8 +12,6 @@ import java.util.UUID;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
-
 public class ChucVuForm extends javax.swing.JFrame {
 
     /**
@@ -21,6 +19,7 @@ public class ChucVuForm extends javax.swing.JFrame {
      */
     public HashMap<String, ChucVu> map;
     ChucVuServiceImpl qlcv;
+
     public ChucVuForm() {
         initComponents();
         qlcv = new ChucVuServiceImpl();
@@ -50,6 +49,8 @@ public class ChucVuForm extends javax.swing.JFrame {
         btnXoaForm = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
+        txtId = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,14 +66,14 @@ public class ChucVuForm extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Ma", "Ten"
+                "Ma", "Ten", "ID"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -131,25 +132,15 @@ public class ChucVuForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("ID");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(157, 157, 157)
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnThem)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSua))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -162,18 +153,39 @@ public class ChucVuForm extends javax.swing.JFrame {
                                 .addComponent(btnXoa)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnXoaForm))
-                            .addComponent(btnSearch)))))
+                            .addComponent(btnSearch)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnThem)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addComponent(btnSua))))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(150, 150, 150)
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
@@ -204,15 +216,15 @@ public class ChucVuForm extends javax.swing.JFrame {
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
         int row = this.tblChucVu.getSelectedRow();
-        if(row == -1){
+        if (row == -1) {
             JOptionPane.showMessageDialog(this, "Ban phai chon mot dong!");
             return;
         }
-        String ma= this.tblChucVu.getValueAt(row, 0).toString();
+        String ma = this.tblChucVu.getValueAt(row, 0).toString();
         UUID id = null;
         List<ChucVu> ls = this.qlcv.getList();
-           for (ChucVu l : ls) {
-            if(l.getMa().equalsIgnoreCase(ma)){
+        for (ChucVu l : ls) {
+            if (l.getMa().equalsIgnoreCase(ma)) {
                 id = l.getId();
                 break;
             }
@@ -225,7 +237,7 @@ public class ChucVuForm extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         ChucVu cv = this.getFormData();
-        if(cv == null){
+        if (cv == null) {
             return;
         }
         this.qlcv.Insert(cv);
@@ -236,24 +248,23 @@ public class ChucVuForm extends javax.swing.JFrame {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         ChucVu cv = this.getFormData();
-        if(cv == null){
+        if (cv == null) {
             return;
         }
         int row = this.tblChucVu.getSelectedRow();
-        if(row == -1){
+        if (row == -1) {
             JOptionPane.showMessageDialog(this, "Ban phai chon mot dong");
             return;
         }
         String ma = this.tblChucVu.getValueAt(row, 0).toString();
-            UUID id = null;
+        UUID id = null;
         List<ChucVu> ls = this.qlcv.getList();
-           for (ChucVu l : ls) {
-            if(l.getMa().equalsIgnoreCase(ma)){
+        for (ChucVu l : ls) {
+            if (l.getMa().equalsIgnoreCase(ma)) {
                 id = l.getId();
                 break;
             }
         }
-         
            
         this.qlcv.Update(cv, id);
         this.loadTable();
@@ -262,15 +273,18 @@ public class ChucVuForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void tblChucVuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblChucVuMouseClicked
-      int row = this.tblChucVu.getSelectedRow();
-      if(row == -1){
-          return;
-      }
+        int row = this.tblChucVu.getSelectedRow();
+        if (row == -1) {
+            return;
+        }
         String ma = this.tblChucVu.getValueAt(row, 0).toString();
         String ten = this.tblChucVu.getValueAt(row, 1).toString();
-        
+        String id = this.tblChucVu.getValueAt(row, 2).toString();
+
         this.txtMa.setText(ma);
         this.txtTen.setText(ten);
+        this.txtId.setText(id);
+
     }//GEN-LAST:event_tblChucVuMouseClicked
 
     private void btnXoaFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaFormActionPerformed
@@ -279,47 +293,49 @@ public class ChucVuForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnXoaFormActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-       
-                
+
+
     }//GEN-LAST:event_btnSearchActionPerformed
-    
-    public ChucVu getFormData(){
+
+    public ChucVu getFormData() {
         String ma = this.txtMa.getText();
         String ten = this.txtTen.getText();
-        if(ma.trim().length() == 0){
+        if (ma.trim().length() == 0) {
             JOptionPane.showMessageDialog(this, "Khong duoc de trong ma!");
             txtMa.requestFocus();
             return null;
         }
-            if(ten.trim().length() == 0){
+        if (ten.trim().length() == 0) {
             JOptionPane.showMessageDialog(this, "Khong duoc de trong ten!");
             txtTen.requestFocus();
             return null;
         }
-          ChucVu chucvu = null;
-          chucvu = new ChucVu(ma,ten);
-          return chucvu;
-        
-    
+        ChucVu chucvu = null;
+        chucvu = new ChucVu(ma, ten);
+        return chucvu;
+
     }
-    private void clearForm(){
+
+    private void clearForm() {
         this.txtMa.setText("");
         this.txtSearch.setText("");
         this.txtTen.setText("");
-        
+
     }
-    private void loadTable(){
+
+    private void loadTable() {
         DefaultTableModel dtm = (DefaultTableModel) this.tblChucVu.getModel();
         dtm.setRowCount(0);
-        List<ChucVu> ds = this.qlcv.getList() ;
+        List<ChucVu> ds = this.qlcv.getList();
         for (ChucVu d : ds) {
             Object[] rowData = {
-                d.getMa(),d.getTen()
+                d.getMa(), d.getTen(), d.getId()
             };
             dtm.addRow(rowData);
         }
-    
+
     }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -368,8 +384,10 @@ public class ChucVuForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblChucVu;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtMa;
     private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtTen;

@@ -28,16 +28,6 @@ public class NhanVienForm extends javax.swing.JFrame {
     public NhanVienForm() {
         initComponents();
         qlnv = new NhanVienServiceImpl();
-//        getContentPane().setBackground(new Color(30, 30, 30));
-//        tblNhanVien.fixTable(jScrollPane3);
-//        tblNhanVien.setColumnAlignment(0, JLabel.CENTER);
-//        tblNhanVien.setCellAlignment(0, JLabel.CENTER);
-//        tblNhanVien.setColumnAlignment(2, JLabel.CENTER);
-//        tblNhanVien.setCellAlignment(2, JLabel.CENTER);
-//        tblNhanVien.setColumnAlignment(4, JLabel.RIGHT);
-//        tblNhanVien.setCellAlignment(4, JLabel.RIGHT);
-//        tblNhanVien.setColumnWidth(0, 50);
-//        tblNhanVien.setColumnWidth(2, 100);
         this.loadCbb();
         this.loadTable();
     }
@@ -301,15 +291,20 @@ public class NhanVienForm extends javax.swing.JFrame {
 
         tblNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9", "Title 10", "Title 11"
             }
         ));
+        tblNhanVien.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblNhanVienMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblNhanVien);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -520,6 +515,59 @@ public class NhanVienForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.clearForm();
     }//GEN-LAST:event_btnclearActionPerformed
+
+    private void tblNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseClicked
+        int row = this.tblNhanVien.getSelectedRow();
+        if (row == -1) {
+            return;
+        }
+        String ma = this.tblNhanVien.getValueAt(row, 1).toString();
+        String tendaydu = this.tblNhanVien.getValueAt(row, 2).toString();
+        String gt = this.tblNhanVien.getValueAt(row, 3).toString();
+        String ngaysinh = this.tblNhanVien.getValueAt(row, 4).toString();
+        String diachi = this.tblNhanVien.getValueAt(row, 5).toString();
+        String sdt = this.tblNhanVien.getValueAt(row, 6).toString();
+        String matkhau = this.tblNhanVien.getValueAt(row, 7).toString();
+        String tencuahang = this.tblNhanVien.getValueAt(row, 8).toString();
+        String tenchucvu = this.tblNhanVien.getValueAt(row, 9).toString();
+        String trangthai = this.tblNhanVien.getValueAt(row, 10).toString();
+
+        this.txtma.setText(ma);
+        this.txtdiachi.setText(diachi);
+        this.txtngaysinh.setText(ngaysinh);
+        this.txtpass.setText(matkhau);
+        this.txtsdt.setText(sdt);
+        this.cbbTrangThai.setSelectedItem(trangthai);
+        String[] splits = tendaydu.split(" ");
+        String part1 = splits[0];
+        String part2 = splits[1];
+        String part3 = splits[2];
+        if (gt.equalsIgnoreCase("Nam")) {
+            this.rdonam.setSelected(true);
+        } else {
+            this.rdonu.setSelected(true);
+        }
+        String maCh = null;
+        List<CuaHang> lsCh = this.qlch.getAll();
+        for (CuaHang cuaHang : lsCh) {
+            if (tencuahang.equalsIgnoreCase(cuaHang.getTen())) {
+                maCh = cuaHang.getMa();
+            }
+        }
+        String maCv = null;
+        List<ChucVu> lsCv = this.qlcv.getList();
+        for (ChucVu chucVu : lsCv) {
+            if (tenchucvu.equalsIgnoreCase(chucVu.getTen())) {
+                maCv = chucVu.getMa();
+            }
+
+        }
+        this.txtho.setText(part1);
+        this.txttendem.setText(part2);
+        this.txtten.setText(part3);
+        this.cbbCuaHang.setSelectedItem(maCh);
+        this.cbbChucVu.setSelectedItem(maCv);
+    }//GEN-LAST:event_tblNhanVienMouseClicked
 
     private NhanVien getFormData() {
         String ma = this.txtma.getText();

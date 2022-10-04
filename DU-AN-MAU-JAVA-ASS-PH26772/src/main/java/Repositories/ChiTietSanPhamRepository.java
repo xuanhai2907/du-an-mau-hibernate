@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -20,7 +21,6 @@ public class ChiTietSanPhamRepository {
 
     public List<ViewModelsChiTietSanPham> getAll(String ten) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-//        String ten = "i";
         javax.persistence.Query query = session.createQuery("select "
                 + " new ViewModels.ViewModelsChiTietSanPham("
                 + " m.idSP.ma as ma,"
@@ -43,5 +43,64 @@ public class ChiTietSanPhamRepository {
         Query query = session.createQuery("From ChiTietSP");
         List<ChiTietSP> ls = query.getResultList();
         return ls;
+    }
+    
+    public List<ChiTietSP> getAll() {
+        try (Session s = HibernateUtil.getSessionFactory().openSession();) {
+            Query q = s.createQuery("From ChiTietSP", ChiTietSP.class);//HQL 
+            List<ChiTietSP> list = q.getResultList();
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public ChiTietSP them(ChiTietSP ctSP) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction trans = session.getTransaction();
+            trans.begin();
+            try {
+                session.saveOrUpdate(ctSP);
+                trans.commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+                trans.rollback();
+                ctSP = null;
+            }
+        } finally {
+            return ctSP;
+
+        }
+    }
+
+    public boolean sua(ChiTietSP ctSP){
+        Transaction transaction = null;
+        try (Session session =HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.update(ctSP);
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            transaction.rollback();
+            return false;
+        }
+    }
+    public String xoa(ChiTietSP ctSP,String moTa) {
+        Transaction tr = null;
+        String check = "";
+        try (Session s = HibernateUtil.getSessionFactory().openSession();) {
+            tr = s.beginTransaction();
+
+            ChiTietSP ct = new ChiTietSP(ctSP.getMoTa());
+            s.delete(ctSP);
+            check = "Xóa thành công";
+            tr.commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            check = "Xóa thất bại";
+        }
+        return check;
     }
 }
