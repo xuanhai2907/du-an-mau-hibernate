@@ -25,7 +25,7 @@ public class GioHangChiTiet implements Serializable {
     
     @Id
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdGioHang", insertable = false, updatable = false)
+    @JoinColumn(name = "IdGioHang", nullable = false)
     private GioHang idGioHang;
     
     @Id

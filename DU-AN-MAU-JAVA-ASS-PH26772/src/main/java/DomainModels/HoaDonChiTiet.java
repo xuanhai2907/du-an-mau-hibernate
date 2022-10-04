@@ -24,12 +24,12 @@ import lombok.Data;
 public class HoaDonChiTiet implements Serializable {
     @Id
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdChiTietSP", insertable = false, updatable = false)
+    @JoinColumn(name = "IdChiTietSP", nullable = false)
     private ChiTietSP idChiTietSP;
     
     @Id
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdHoaDon", insertable = false, updatable = false)
+    @JoinColumn(name = "IdHoaDon", nullable = false)
     private HoaDon idHoaDon;
     
     @Column(name = "SoLuong")

@@ -1,8 +1,11 @@
 package Views;
 
 import Services.ChiTietSanPhamService;
+import Services.HoaDonChiTietService;
 import Services.ServiceImpl.ChiTietSanPhamServiceImpl;
+import Services.ServiceImpl.HoaDonChiTietServiceImpl;
 import ViewModels.ViewModelsChiTietSanPham;
+import ViewModels.ViewModelsHoaDonChiTiet;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.UIManager;
@@ -11,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 public class MainJFrame extends javax.swing.JFrame {
 
     private ChiTietSanPhamService ser;
+    private HoaDonChiTietService ser1;
     String strFindTen = "";
 
     public MainJFrame() {
@@ -19,7 +23,9 @@ public class MainJFrame extends javax.swing.JFrame {
         setTitle("Quản lí bán hàng");
         setLocationRelativeTo(null);
         ser = new ChiTietSanPhamServiceImpl();
+        ser1 = new HoaDonChiTietServiceImpl();
         fillTable();
+        fillTable1();
     }
 
     public void fillTable() {
@@ -40,6 +46,21 @@ public class MainJFrame extends javax.swing.JFrame {
             model.addRow(row);
         }
     }
+        public void fillTable1() {
+        DefaultTableModel model = (DefaultTableModel) tbHoaDonChiTiet.getModel();
+        model.setRowCount(0);
+        int i = 1;
+        for (ViewModelsHoaDonChiTiet m : ser1.getAll()) {
+            Object[] row = new Object[]{
+                i++,
+                m.getMaHoaDon(),
+                m.getNgayTao(),
+                m.getTenNhanVien(),
+                m.getTinhTrang()
+            };
+            model.addRow(row);
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -50,7 +71,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnTaoHoaDon = new com.k33ptoo.components.KButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbHoaDonChiTiet = new javax.swing.JTable();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
@@ -96,7 +117,7 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbHoaDonChiTiet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -115,7 +136,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbHoaDonChiTiet);
 
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setText("Chờ thanh toán");
@@ -429,13 +450,15 @@ public class MainJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchSanPhamActionPerformed
 
     private void btnTaoHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoHoaDonActionPerformed
-        txtMaHd.setText("");
-        txtNgayTao.setText("");
-        txtSearchSanPham.setText("");
-        txtTenNv.setText("");
-        txtTienKhachDua.setText("");
-        txtTienThua.setText("");
-        txtTongTien.setText("");
+//        txtMaHd.setText("");
+//        txtNgayTao.setText("");
+//        txtSearchSanPham.setText("");
+//        txtTenNv.setText("");
+//        txtTienKhachDua.setText("");
+//        txtTienThua.setText("");
+//        txtTongTien.setText("");
+
+
     }//GEN-LAST:event_btnTaoHoaDonActionPerformed
 
     /**
@@ -502,9 +525,9 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator8;
-    private javax.swing.JTable jTable1;
     private com.k33ptoo.components.KButton kButton2;
     private javax.swing.JTable tbGioHang;
+    private javax.swing.JTable tbHoaDonChiTiet;
     private javax.swing.JTable tbSanPham;
     private javax.swing.JTextField txtMaHd;
     private javax.swing.JTextField txtNgayTao;
