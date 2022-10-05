@@ -450,13 +450,7 @@ public class MainJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchSanPhamActionPerformed
 
     private void btnTaoHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoHoaDonActionPerformed
-//        txtMaHd.setText("");
-//        txtNgayTao.setText("");
-//        txtSearchSanPham.setText("");
-//        txtTenNv.setText("");
-//        txtTienKhachDua.setText("");
-//        txtTienThua.setText("");
-//        txtTongTien.setText("");
+
 
 
     }//GEN-LAST:event_btnTaoHoaDonActionPerformed
