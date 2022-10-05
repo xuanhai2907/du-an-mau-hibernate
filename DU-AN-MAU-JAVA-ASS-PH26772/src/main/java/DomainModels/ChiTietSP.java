@@ -96,7 +96,7 @@ public class ChiTietSP implements Serializable {
     }
 
     public Object[] toRowData() {
-        return new Object[]{id, giaBan, giaNhap, moTa, namBH, soLuongTon, idDongSP.getTen(), idMauSac.getTen(), idNsx.getTen(), idSP.getTen()};
+        return new Object[]{giaBan, giaNhap, moTa, namBH, soLuongTon, idDongSP.getTen(), idMauSac.getTen(), idNsx.getTen(), idSP.getTen()};
     }
 
 }

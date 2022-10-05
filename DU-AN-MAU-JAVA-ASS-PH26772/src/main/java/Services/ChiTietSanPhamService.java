@@ -7,6 +7,7 @@ package Services;
 import DomainModels.ChiTietSP;
 import ViewModels.ViewModelsChiTietSanPham;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -22,7 +23,7 @@ public interface ChiTietSanPhamService {
 
     ChiTietSP them(ChiTietSP ctSP);
 
-    String xoa(ChiTietSP ctSP, String moTa);
+    String xoa(UUID id);
 
     String sua(ChiTietSP ctSP);
 }

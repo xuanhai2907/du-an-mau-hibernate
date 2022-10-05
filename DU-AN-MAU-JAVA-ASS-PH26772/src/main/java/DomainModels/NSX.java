@@ -32,8 +32,6 @@ public class NSX implements Serializable {
     @Column(name = "Ten", length = 30)
     private String ten;
 
-    @OneToMany(mappedBy = "idNsx", fetch = FetchType.LAZY)
-    private List<ChiTietSP> listcChiTietSP;
     public NSX() {
     }
 

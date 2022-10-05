@@ -9,6 +9,7 @@ import Utilities.HibernateUtil;
 import ViewModels.ViewModelsChiTietSanPham;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -60,7 +61,7 @@ public class ChiTietSanPhamRepository {
             Transaction trans = session.getTransaction();
             trans.begin();
             try {
-                session.saveOrUpdate(ctSP);
+                session.save(ctSP);
                 trans.commit();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -81,19 +82,18 @@ public class ChiTietSanPhamRepository {
             transaction.commit();
             return true;
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
             transaction.rollback();
             return false;
         }
     }
-    public String xoa(ChiTietSP ctSP,String moTa) {
+    public String xoa(UUID id) {
         Transaction tr = null;
         String check = "";
         try (Session s = HibernateUtil.getSessionFactory().openSession();) {
             tr = s.beginTransaction();
-
-            ChiTietSP ct = new ChiTietSP(ctSP.getMoTa());
-            s.delete(ctSP);
+            ChiTietSP ct = s.find(ChiTietSP.class, id);
+            s.delete(ct);
             check = "Xóa thành công";
             tr.commit();
 

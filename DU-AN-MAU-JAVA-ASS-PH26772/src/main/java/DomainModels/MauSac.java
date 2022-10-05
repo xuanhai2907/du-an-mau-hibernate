@@ -32,9 +32,6 @@ public class MauSac implements Serializable {
     @Column(name = "Ten", length = 30)
     private String ten;
 
-    @OneToMany(mappedBy = "idMauSac", fetch = FetchType.LAZY)
-    private List<ChiTietSP> listcChiTietSP;
-
     public MauSac(String ma, String ten) {
         this.ma = ma;
         this.ten = ten;

@@ -28,9 +28,6 @@ public class DongSP implements Serializable {
 
     @Column(name = "Ten", length = 30)
     private String ten;
-    
-    @OneToMany(mappedBy = "idDongSP", fetch = FetchType.LAZY)
-    private List<ChiTietSP> listcChiTietSP;
 
     public DongSP(UUID id, String ma, String ten) {
         this.id = id;

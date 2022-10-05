@@ -9,11 +9,9 @@ import Repositories.ChiTietSanPhamRepository;
 import Services.ChiTietSanPhamService;
 import ViewModels.ViewModelsChiTietSanPham;
 import java.util.List;
+import java.util.UUID;
 
-/**
- *
- * @author window
- */
+
 public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
 
     private ChiTietSanPhamRepository repository;
@@ -43,13 +41,14 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
     }
 
     @Override
-    public String xoa(ChiTietSP ctSP, String moTa) {
-        return repository.xoa(ctSP, moTa);
+    public String xoa(UUID id) {
+        return repository.xoa(id);
     }
 
     @Override
     public String sua(ChiTietSP ctSP) {
         boolean test = repository.sua(ctSP);
+        System.out.println(ctSP.getId());
         if (test) {
             return "Sửa thành công";
         } else {
