@@ -5,7 +5,11 @@
 package Views;
 
 import DomainModels.ChucVu;
+import Services.ChucVuService;
 import Services.ServiceImpl.ChucVuServiceImpl;
+import ViewModels.QLChucVu;
+import ViewModels.ViewModelsChucVu;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -17,14 +21,67 @@ public class ChucVuForm extends javax.swing.JFrame {
     /**
      * Creates new form ChucVuView
      */
-    public HashMap<String, ChucVu> map;
-    ChucVuServiceImpl qlcv;
+    private DefaultTableModel dtm = new DefaultTableModel();
+    private ChucVuService service = new ChucVuServiceImpl();
+    private List<QLChucVu> listQLCV = new ArrayList<>();
 
     public ChucVuForm() {
         initComponents();
-        qlcv = new ChucVuServiceImpl();
-        HashMap x = new HashMap();
-        this.loadTable();
+        tblChucVu.setModel(dtm);
+        String[] header = {"ID", "Ma ", "Ten "};
+        dtm.setColumnIdentifiers(header);
+        listQLCV = service.getAll();
+        showData(listQLCV);
+    }
+
+    public void showData(List<QLChucVu> list) {
+        dtm.setRowCount(0);
+        for (QLChucVu qLChucVu : list) {
+            dtm.addRow(qLChucVu.toRowData());
+        }
+    }
+
+    public void fillData(int index) {
+        QLChucVu ql = listQLCV.get(index);
+        lbID.setText(String.valueOf(ql.getId()));
+        txtMa.setText(ql.getMa());
+        txtTen.setText(ql.getTen());
+    }
+
+    private QLChucVu Mouse() {
+        int chon = tblChucVu.getSelectedRow();
+        return listQLCV.get(chon);
+    }
+
+    public static String gen(String ma) {
+        int last = (int) Math.floor((Math.random()) * 9999);
+        if (last < 1000 && last >= 100) {
+            return ma + "0" + last;
+        }
+        if (last < 100 && last >= 10) {
+            return ma + "00" + last;
+        }
+        if (last < 10) {
+            return ma + "000" + last;
+        }
+
+        return ma + last;
+
+    }
+
+    private QLChucVu check() {
+        String ma = txtMa.getText();
+        String ten = txtTen.getText();
+
+        if (ten.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Không đươc để trống tên");
+            return null;
+        }
+        QLChucVu qlcv = new QLChucVu();
+        qlcv.setMa(gen("CV"));
+        qlcv.setTen(ten);
+
+        return qlcv;
     }
 
     /**
@@ -49,7 +106,7 @@ public class ChucVuForm extends javax.swing.JFrame {
         btnXoaForm = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
-        txtId = new javax.swing.JTextField();
+        lbID = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -66,14 +123,14 @@ public class ChucVuForm extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Ma", "Ten", "ID"
+                "STT", "Mã", "Tên"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true
+                true, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -90,6 +147,9 @@ public class ChucVuForm extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tblChucVu);
+        if (tblChucVu.getColumnModel().getColumnCount() > 0) {
+            tblChucVu.getColumnModel().getColumn(0).setResizable(false);
+        }
 
         btnXoa.setText("Xoa");
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
@@ -139,64 +199,72 @@ public class ChucVuForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtSearch)
-                            .addComponent(txtTen, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(205, 205, 205))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23)
+                        .addComponent(lbID, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnThem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSua, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnXoaForm, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 8, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnXoa)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnXoaForm))
-                            .addComponent(btnSearch)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGap(29, 29, 29)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtMa, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                                            .addComponent(txtTen))))
+                                .addGap(10, 10, 10)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnSearch)))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnThem)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                        .addComponent(btnSua))))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addGap(150, 150, 150)
+                                .addComponent(jLabel3)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(150, 150, 150)
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnThem)
+                        .addComponent(btnXoaForm)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(btnSua)
-                    .addComponent(btnThem))
+                    .addComponent(btnSua))
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnXoa)
-                    .addComponent(btnXoaForm))
+                    .addComponent(btnXoa))
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -214,77 +282,50 @@ public class ChucVuForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        // TODO add your handling code here:
-        int row = this.tblChucVu.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Ban phai chon mot dong!");
+        int chon = tblChucVu.getSelectedRow();
+        if (chon == -1) {
+            JOptionPane.showMessageDialog(this, "Bạn phải chọn 1 dòng để xóa");
             return;
         }
-        String ma = this.tblChucVu.getValueAt(row, 0).toString();
-        UUID id = null;
-        List<ChucVu> ls = this.qlcv.getList();
-        for (ChucVu l : ls) {
-            if (l.getMa().equalsIgnoreCase(ma)) {
-                id = l.getId();
-                break;
-            }
-        }
-        this.qlcv.Delete(id);
-        this.loadTable();
-        this.clearForm();
-        JOptionPane.showMessageDialog(this, "Xoa thanh cong");
+        service.xoa(listQLCV.get(chon).getId());
+        listQLCV.remove(chon);
+        JOptionPane.showMessageDialog(this, "Xóa thành công");
+        showData(listQLCV);
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        ChucVu cv = this.getFormData();
+        QLChucVu cv = check();
         if (cv == null) {
             return;
         }
-        this.qlcv.Insert(cv);
-        this.clearForm();
-        this.loadTable();
-        JOptionPane.showMessageDialog(this, "Them thanh cong");
+        service.them(cv);
+        listQLCV.clear();
+        listQLCV = service.getAll();
+        showData(listQLCV);
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        ChucVu cv = this.getFormData();
-        if (cv == null) {
+        int chon = tblChucVu.getSelectedRow();
+        if (chon == -1) {
+            JOptionPane.showMessageDialog(this, "Bạn phải chọn 1 dòng để sửa");
             return;
         }
-        int row = this.tblChucVu.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Ban phai chon mot dong");
+        QLChucVu qlcv = listQLCV.get(chon);
+        QLChucVu vu = check();
+        if (vu == null) {
             return;
         }
-        String ma = this.tblChucVu.getValueAt(row, 0).toString();
-        UUID id = null;
-        List<ChucVu> ls = this.qlcv.getList();
-        for (ChucVu l : ls) {
-            if (l.getMa().equalsIgnoreCase(ma)) {
-                id = l.getId();
-                break;
-            }
-        }
-           
-        this.qlcv.Update(cv, id);
-        this.loadTable();
-        this.clearForm();
-        JOptionPane.showMessageDialog(this, "Sua thanh cong");
+        vu.setId(qlcv.getId());
+        vu.setMa(qlcv.getMa());
+        service.sua(vu);
+        listQLCV.set(chon, vu);
+        JOptionPane.showMessageDialog(this, "Sửa thành công");
+        showData(listQLCV);
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void tblChucVuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblChucVuMouseClicked
-        int row = this.tblChucVu.getSelectedRow();
-        if (row == -1) {
-            return;
-        }
-        String ma = this.tblChucVu.getValueAt(row, 0).toString();
-        String ten = this.tblChucVu.getValueAt(row, 1).toString();
-        String id = this.tblChucVu.getValueAt(row, 2).toString();
-
-        this.txtMa.setText(ma);
-        this.txtTen.setText(ten);
-        this.txtId.setText(id);
-
+        int chon = tblChucVu.getSelectedRow();
+        fillData(chon);
     }//GEN-LAST:event_tblChucVuMouseClicked
 
     private void btnXoaFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaFormActionPerformed
@@ -297,42 +338,10 @@ public class ChucVuForm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnSearchActionPerformed
 
-    public ChucVu getFormData() {
-        String ma = this.txtMa.getText();
-        String ten = this.txtTen.getText();
-        if (ma.trim().length() == 0) {
-            JOptionPane.showMessageDialog(this, "Khong duoc de trong ma!");
-            txtMa.requestFocus();
-            return null;
-        }
-        if (ten.trim().length() == 0) {
-            JOptionPane.showMessageDialog(this, "Khong duoc de trong ten!");
-            txtTen.requestFocus();
-            return null;
-        }
-        ChucVu chucvu = null;
-        chucvu = new ChucVu(ma, ten);
-        return chucvu;
-
-    }
-
     private void clearForm() {
         this.txtMa.setText("");
         this.txtSearch.setText("");
         this.txtTen.setText("");
-
-    }
-
-    private void loadTable() {
-        DefaultTableModel dtm = (DefaultTableModel) this.tblChucVu.getModel();
-        dtm.setRowCount(0);
-        List<ChucVu> ds = this.qlcv.getList();
-        for (ChucVu d : ds) {
-            Object[] rowData = {
-                d.getMa(), d.getTen(), d.getId()
-            };
-            dtm.addRow(rowData);
-        }
 
     }
 
@@ -386,8 +395,8 @@ public class ChucVuForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField lbID;
     private javax.swing.JTable tblChucVu;
-    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtMa;
     private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtTen;

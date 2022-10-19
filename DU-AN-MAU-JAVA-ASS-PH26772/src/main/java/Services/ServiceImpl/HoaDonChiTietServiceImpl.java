@@ -4,10 +4,14 @@
  */
 package Services.ServiceImpl;
 
+import DomainModels.HoaDon;
 import Repositories.HoaDonChiTietRepository;
 import Services.HoaDonChiTietService;
+import ViewModels.ViewModelsHoaDon;
 import ViewModels.ViewModelsHoaDonChiTiet;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  *
@@ -22,8 +26,13 @@ public class HoaDonChiTietServiceImpl implements HoaDonChiTietService {
     }
 
     @Override
-    public List<ViewModelsHoaDonChiTiet> getAll() {
-        return re.getAll();
+    public List<ViewModelsHoaDonChiTiet> getAll(UUID id) {
+        return re.getAll(id);
+    }
+
+    @Override
+    public boolean insertHoaDonChiTiet(Map<String, ViewModelsHoaDonChiTiet> mapHoaDonChiTiet) {
+       return re.insertHoaDonChiTiet(mapHoaDonChiTiet);
     }
 
 }

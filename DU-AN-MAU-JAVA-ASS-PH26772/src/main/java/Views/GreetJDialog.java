@@ -1,5 +1,8 @@
 package Views;
 
+import DomainModels.NhanVien;
+import Services.HoaDonService;
+import Services.ServiceImpl.HoaDonServiceImpl;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -7,12 +10,19 @@ import javax.swing.JDialog;
 import javax.swing.UIManager;
 
 public class GreetJDialog extends javax.swing.JDialog {
-
+    private NhanVien nhanVien;
     public GreetJDialog(JDialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
         runLoadingBar();
         setLocationRelativeTo(parent);
+    }
+        public GreetJDialog(JDialog parent, boolean modal, NhanVien nhanVien) {
+        super(parent, modal);
+        initComponents();
+        runLoadingBar();
+        setLocationRelativeTo(parent);
+        this.nhanVien = nhanVien;
     }
 
     private void runLoadingBar() {
@@ -23,12 +33,12 @@ public class GreetJDialog extends javax.swing.JDialog {
 
                 for (int i = 0; i <= 100; i++) {
                     try {
-                        Thread.sleep(20);
+                        Thread.sleep(5);
                         lblLoadingValue.setText(i + "%");
                         progressBar.setValue(i);
                         if (i == 100) {
                             dispose();
-                            new MainJFrame().setVisible(true);
+                            new MainJFrame(nhanVien).setVisible(true);
                         }
                     } catch (InterruptedException ex) {
                         Logger.getLogger(GreetJDialog.class.getName()).log(Level.SEVERE, null, ex);

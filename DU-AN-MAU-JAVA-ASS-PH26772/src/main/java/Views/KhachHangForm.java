@@ -4,6 +4,7 @@ package Views;
 import DomainModels.KhachHang;
 import Services.KhachHangService;
 import Services.ServiceImpl.KhachHangServiceImpl;
+import ViewModels.QLKhachHang;
 import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
@@ -337,11 +338,11 @@ public class KhachHangForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtThanhPhoActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        KhachHang kh = this.getFormData();
+        QLKhachHang kh = this.getFormData();
         if (kh == null) {
             return;
         }
-        this.qlkh.insert(kh);
+        this.qlkh.them(kh);
         this.loadTable();
         this.cleanForm();
         JOptionPane.showMessageDialog(this, "Thêm thành công");
@@ -354,14 +355,14 @@ public class KhachHangForm extends javax.swing.JFrame {
             return;
         }
         
-        KhachHang kh = this.getFormData();
+        QLKhachHang kh = this.getFormData();
         if (kh == null) {
             return;
         }
         String idKH =  this.tblKhachHang.getValueAt(row, 0).toString();
         UUID id = UUID.fromString(idKH);
         kh.setId(id);
-        this.qlkh.update(kh, id);
+        this.qlkh.sua(kh);
                 this.loadTable();
         this.cleanForm();
         JOptionPane.showMessageDialog(this, "SỬa thành công");
@@ -375,7 +376,7 @@ public class KhachHangForm extends javax.swing.JFrame {
         }
         String idKH =  this.tblKhachHang.getValueAt(row, 0).toString();
         UUID id = UUID.fromString(idKH);
-        this.qlkh.delete(id);
+        this.qlkh.xoa(id);
                 this.loadTable();
         this.cleanForm();
         JOptionPane.showMessageDialog(this, "Xóa thành công");
@@ -414,8 +415,8 @@ public class KhachHangForm extends javax.swing.JFrame {
     private void loadTable() {
         DefaultTableModel dtm = (DefaultTableModel) this.tblKhachHang.getModel();
         dtm.setRowCount(0);
-        List<KhachHang> ls = this.qlkh.getList();
-        for (KhachHang l : ls) {
+        List<QLKhachHang> ls = this.qlkh.getList();
+        for (QLKhachHang l : ls) {
             Object[] rowData = {
                 l.getId(),
                 l.getMa(),
@@ -454,7 +455,7 @@ public class KhachHangForm extends javax.swing.JFrame {
         this.txtMatKhau.setText("");
 
     }
-    private KhachHang getFormData(){
+    private QLKhachHang getFormData(){
         
         String ma = this.txtMa.getText();
         String ten = this.txtTen.getText();
@@ -472,9 +473,9 @@ public class KhachHangForm extends javax.swing.JFrame {
             return null;
         }
 
-        KhachHang kh = null;
+        QLKhachHang kh = null;
 
-        kh = new KhachHang(ma, ten, tenDem, ho, Date.valueOf(ngaySinh), sdt, diaChi, thanhPho, quocGia, matKhau);
+        kh = new QLKhachHang(ma, ten, tenDem, ho, Date.valueOf(ngaySinh), sdt, diaChi, thanhPho, quocGia, matKhau);
         return kh;
     }
     

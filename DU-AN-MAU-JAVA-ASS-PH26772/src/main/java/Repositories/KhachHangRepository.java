@@ -28,30 +28,46 @@ public class KhachHangRepository {
 
     }
 
-    public void insert(KhachHang kh) {
-        Session session = Utilities.HibernateUtil.getSessionFactory().openSession();
-        Transaction trans = session.beginTransaction();
-        session.save(kh);
-        trans.commit();
-        session.close();
+    public String them(KhachHang khachHang) {
+        Transaction t = null;
+        String check;
+        try ( Session s = new HibernateUtil().getSessionFactory().openSession();) {
+            t = s.beginTransaction();
+            s.save(khachHang);
+            t.commit();
+            check = "Thêm thành công";
+        } catch (Exception e) {
+            e.printStackTrace();
+            t.rollback(); //hoàn lại kết quả
+            check = "Thêm thất bại";
+        }
+        return check;
     }
 
-    public void update(KhachHang kh, UUID vitri) {
-        Session session = Utilities.HibernateUtil.getSessionFactory().openSession();
-        Transaction trans = session.beginTransaction();
-        kh.setId(vitri);
-        session.update(kh);
-        trans.commit();
-        session.close();
+    public void sua(KhachHang khachHang) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = s.beginTransaction();
+        s.update(khachHang);
+        t.commit();
+        s.close();
     }
 
-    public void delete(UUID vitri) {
-        Session session = Utilities.HibernateUtil.getSessionFactory().openSession();
-        Transaction trans = session.beginTransaction();
-        KhachHang kh = session.get(KhachHang.class, vitri);
-        session.delete(kh);
-        trans.commit();
-        session.close();
+    public void xoa(UUID id) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = s.beginTransaction();
+        KhachHang kh = s.find(KhachHang.class, id);
+        s.delete(kh);
+        t.commit();
+        s.close();
+    }
+
+    public KhachHang findId(UUID id) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = s.beginTransaction();
+        KhachHang kh = s.find(KhachHang.class, id);
+        t.commit();
+        s.close();
+        return kh;
     }
 
 }

@@ -18,7 +18,7 @@ import org.hibernate.Transaction;
  * @author asus
  */
 public class MauSacRepository {
-       public List<MauSac> getAll() {
+    public List<MauSac> getAll() {
         try ( Session s = HibernateUtil.getSessionFactory().openSession();) {
 
             Query q = s.createQuery("From MauSac");
@@ -32,7 +32,7 @@ public class MauSacRepository {
     }
 
     public MauSac them(MauSac ms) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction trans = session.getTransaction();
             trans.begin();
             try {
@@ -47,10 +47,11 @@ public class MauSacRepository {
             return ms;
         }
     }
-   public boolean sua(MauSac ms ){
+
+    public boolean sua(MauSac ms) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-           
+        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
+
             transaction = session.beginTransaction();
             session.update(ms);
             transaction.commit();
@@ -61,10 +62,11 @@ public class MauSacRepository {
             return false;
         }
     }
-   public String xoa(MauSac ms,String ma) {
+
+    public String xoa(MauSac ms, String ma) {
         Transaction tr = null;
         String check = "";
-        try (Session s = HibernateUtil.getSessionFactory().openSession();) {
+        try ( Session s = HibernateUtil.getSessionFactory().openSession();) {
             tr = s.beginTransaction();
 
             MauSac ms1 = new MauSac(ms.getMa());

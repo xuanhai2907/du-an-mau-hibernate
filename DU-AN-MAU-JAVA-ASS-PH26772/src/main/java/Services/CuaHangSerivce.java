@@ -2,15 +2,19 @@ package Services;
 
 import DomainModels.CuaHang;
 import DomainModels.CuaHang;
+import ViewModels.QLCuaHang;
 import java.util.List;
+import java.util.UUID;
 
 public interface CuaHangSerivce {
 
-    List<CuaHang> getAll();
+    public List<QLCuaHang> getAll();
 
-    CuaHang them(CuaHang ch);
+    public void them(QLCuaHang qlch);
 
-    String sua(CuaHang ch);
+    public void sua(QLCuaHang qlch);
 
-    String xoa(CuaHang ch, String ma);
+    public void xoa(UUID id);
+    
+    public CuaHang finId(UUID id);
 }

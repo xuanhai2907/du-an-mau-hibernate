@@ -8,9 +8,10 @@ import DomainModels.ChiTietSP;
 import Repositories.ChiTietSanPhamRepository;
 import Services.ChiTietSanPhamService;
 import ViewModels.ViewModelsChiTietSanPham;
+import ViewModels.ViewModelsHoaDonChiTiet;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
-
 
 public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
 
@@ -56,4 +57,8 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
         }
     }
 
+    @Override
+    public boolean updateSoLuong(Map<UUID, ViewModelsChiTietSanPham> mapChiTietSanPham) {
+        return repository.updateSoLuong(mapChiTietSanPham);
+    }
 }

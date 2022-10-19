@@ -9,38 +9,38 @@ import Repositories.ChucVuRepository;
 import java.util.List;
 import java.util.UUID;
 import Services.ChucVuService;
+import ViewModels.QLChucVu;
+import ViewModels.ViewModelsChucVu;
+import java.util.ArrayList;
 
 public class ChucVuServiceImpl implements ChucVuService {
 
-    private ChucVuRepository repo;
+    private ChucVuRepository rp = new ChucVuRepository();
 
-    public ChucVuServiceImpl() {
-        repo = new ChucVuRepository();
+    @Override
+    public List<QLChucVu> getAll() {
+        return rp.getAll();
     }
 
     @Override
-    public List<ChucVu> getList() {
-        return repo.getList();
+    public void them(QLChucVu qlcv) {
+        ChucVu cv = new ChucVu(qlcv.getMa(), qlcv.getTen());
+        rp.them(cv);
     }
 
     @Override
-    public void Insert(ChucVu chucVu) {
-        repo.Insert(chucVu);
+    public void sua(QLChucVu qlcv) {
+        ChucVu cv = new ChucVu(qlcv.getId(), qlcv.getMa(), qlcv.getTen());
+        rp.sua(cv);
     }
 
     @Override
-    public void Update(ChucVu chucVu, UUID loca) {
-        repo.Update(chucVu, loca);
+    public void xoa(UUID id) {
+        rp.xoa(id);
     }
 
     @Override
-    public void Delete(UUID loca) {
-        repo.Delete(loca);
+    public ChucVu findId(UUID id) {
+        return rp.findId(id);
     }
-
-    @Override
-    public ChucVu getChucVuById(String ma) {
-        return repo.getChucVuById(ma);
-    }
-
 }

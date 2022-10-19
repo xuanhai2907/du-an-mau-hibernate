@@ -1,14 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Repositories;
 
 import DomainModels.ChiTietSP;
 import Utilities.HibernateUtil;
 import ViewModels.ViewModelsChiTietSanPham;
+import ViewModels.ViewModelsHoaDonChiTiet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import javax.persistence.Query;
 import org.hibernate.Session;
@@ -24,6 +22,7 @@ public class ChiTietSanPhamRepository {
         Session session = HibernateUtil.getSessionFactory().openSession();
         javax.persistence.Query query = session.createQuery("select "
                 + " new ViewModels.ViewModelsChiTietSanPham("
+                + " m.id,"
                 + " m.idSP.ma as ma,"
                 + " m.idSP.ten as ten,"
                 + " m.namBH as namBH,"
@@ -45,9 +44,9 @@ public class ChiTietSanPhamRepository {
         List<ChiTietSP> ls = query.getResultList();
         return ls;
     }
-    
+
     public List<ChiTietSP> getAll() {
-        try (Session s = HibernateUtil.getSessionFactory().openSession();) {
+        try ( Session s = HibernateUtil.getSessionFactory().openSession();) {
             Query q = s.createQuery("From ChiTietSP", ChiTietSP.class);//HQL 
             List<ChiTietSP> list = q.getResultList();
             return list;
@@ -56,8 +55,9 @@ public class ChiTietSanPhamRepository {
         }
         return null;
     }
+
     public ChiTietSP them(ChiTietSP ctSP) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction trans = session.getTransaction();
             trans.begin();
             try {
@@ -74,9 +74,9 @@ public class ChiTietSanPhamRepository {
         }
     }
 
-    public boolean sua(ChiTietSP ctSP){
+    public boolean sua(ChiTietSP ctSP) {
         Transaction transaction = null;
-        try (Session session =HibernateUtil.getSessionFactory().openSession()) {
+        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.update(ctSP);
             transaction.commit();
@@ -87,10 +87,11 @@ public class ChiTietSanPhamRepository {
             return false;
         }
     }
+
     public String xoa(UUID id) {
         Transaction tr = null;
         String check = "";
-        try (Session s = HibernateUtil.getSessionFactory().openSession();) {
+        try ( Session s = HibernateUtil.getSessionFactory().openSession();) {
             tr = s.beginTransaction();
             ChiTietSP ct = s.find(ChiTietSP.class, id);
             s.delete(ct);
@@ -102,5 +103,30 @@ public class ChiTietSanPhamRepository {
             check = "Xóa thất bại";
         }
         return check;
+    }
+
+    public boolean updateSoLuong(Map<UUID, ViewModelsChiTietSanPham> listMap) {
+        Transaction transaction = null;
+        String hql = "UPDATE ChiTietSP SET SoLuongTon = (SoLuongTon - :soLuong) where id = :id";
+
+        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+            Query query = session.createQuery(hql);
+            for (Map.Entry<UUID, ViewModelsChiTietSanPham> entry : listMap.entrySet()) {
+                transaction = session.beginTransaction();
+                ViewModelsChiTietSanPham value = entry.getValue();
+                query.setParameter("soLuong", value.getSlSp());
+                System.out.println(value.getSlSp());
+                query.setParameter("id", entry.getKey());
+                query.executeUpdate();
+
+                transaction.commit();
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            transaction.rollback();
+            return false;
+        }
     }
 }

@@ -5,16 +5,21 @@
 package Services;
 
 import DomainModels.ChucVu;
+import ViewModels.QLChucVu;
+import ViewModels.ViewModelsChucVu;
 import java.util.List;
 import java.util.UUID;
 
-
 public interface ChucVuService {
-    public List<ChucVu> getList();
-    public ChucVu getChucVuById(String ma);
-    public void Insert(ChucVu chucVu);
-    public void Update(ChucVu chucVu, UUID loca);
-    public void Delete(UUID loca);
-    
-    
+
+    public List<QLChucVu> getAll();
+
+    public void them(QLChucVu qlcv);
+
+    public void sua(QLChucVu qlcv);
+
+    public void xoa(UUID id);
+
+    public ChucVu findId(UUID id);
+
 }

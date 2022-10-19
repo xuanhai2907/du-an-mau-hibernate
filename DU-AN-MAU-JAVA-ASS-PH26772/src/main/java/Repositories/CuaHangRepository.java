@@ -1,78 +1,68 @@
 package Repositories;
 
-
 import DomainModels.CuaHang;
+
 import Utilities.HibernateUtil;
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-/**
- *
- * @author asus
- */
 public class CuaHangRepository {
 
     public List<CuaHang> getAll() {
-        try ( Session s =HibernateUtil.getSessionFactory().openSession();) {
-            Query q = s.createQuery("From CuaHang");
-            List<CuaHang> list = q.getResultList();
-            return list;
+        try ( Session session = new HibernateUtil().getSessionFactory().openSession();) {
+            Query query = session.createQuery("From CuaHang");
+            return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
-
     }
+    
 
-    public CuaHang them(CuaHang ch) {
-        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Transaction trans = session.getTransaction();
-            trans.begin();
-            try {
-                session.save(ch);
-                trans.commit();
-            } catch (Exception e) {
-                e.printStackTrace();
-                trans.rollback();
-                ch = null;
-            }
-        } finally {
-            return ch;
-        }
-    }
-
-    public boolean sua(CuaHang ch) {
-        Transaction transaction = null;
-        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
-
-            transaction = session.beginTransaction();
-            session.update(ch);
-            transaction.commit();
-            return true;
-        } catch (Exception e) {
-            System.out.println(e.toString());
-            transaction.rollback();
-            return false;
-        }
-    }
-
-    public String xoa(CuaHang ch, String ma) {
-        Transaction tr = null;
-        String check = "";
-        try ( Session s = HibernateUtil.getSessionFactory().openSession();) {
-            tr = s.beginTransaction();
-
-            CuaHang ch1 = new CuaHang(ch.getMa());
-            s.delete(ch);
-            check = "Xóa thành công";
-            tr.commit();
-
+    public String them(CuaHang cuaHang) {
+        Transaction t = null;
+        String check;
+        try ( Session session = HibernateUtil.getSessionFactory().openSession();) {
+            t = session.beginTransaction();
+            session.save(cuaHang);
+            t.commit();
+            check = "Thêm thành công";
         } catch (Exception e) {
             e.printStackTrace();
-            check = "Xóa thất bại";
+            t.rollback(); //hoàn lại kết quả
+            check = "Thêm thất bại";
         }
         return check;
     }
+
+    public void sua(CuaHang cuaHang) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = s.beginTransaction();
+        s.update(cuaHang);
+        t.commit();
+        s.close();
+    }
+
+    public void xoa(UUID id) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = s.beginTransaction();
+        CuaHang ch = s.find(CuaHang.class, id);
+        s.delete(ch);
+        t.commit();
+        s.close();
+    }
+
+    public CuaHang finId(UUID id) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+
+        Transaction t = s.beginTransaction();
+        CuaHang ch = s.find(CuaHang.class, id);
+        t.commit();
+        s.close();
+        return ch;
+    }
+
 }

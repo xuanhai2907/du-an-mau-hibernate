@@ -38,7 +38,7 @@ public class LoginJDialog extends javax.swing.JDialog {
         } else {
             Auth.user = nhanVien;
             this.dispose();
-            new GreetJDialog(this, rootPaneCheckingEnabled).setVisible(true);
+            new GreetJDialog(this, rootPaneCheckingEnabled, nhanVien).setVisible(true);
         }
     }
 

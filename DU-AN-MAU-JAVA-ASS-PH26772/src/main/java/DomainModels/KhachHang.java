@@ -79,4 +79,18 @@ public class KhachHang implements Serializable {
     public KhachHang() {
     }
 
+    public KhachHang(UUID id, String ma, String ten, String tenDem, String ho, Date ngaySinh, String sdt, String diaChi, String thanhPho, String quocGia, String matKhau) {
+        this.id = id;
+        this.ma = ma;
+        this.ten = ten;
+        this.tenDem = tenDem;
+        this.ho = ho;
+        this.ngaySinh = ngaySinh;
+        this.sdt = sdt;
+        this.diaChi = diaChi;
+        this.thanhPho = thanhPho;
+        this.quocGia = quocGia;
+        this.matKhau = matKhau;
+    }
+
 }

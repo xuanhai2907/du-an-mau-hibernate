@@ -18,7 +18,6 @@ import org.hibernate.Transaction;
  */
 public class NhanVienRepository {
 
-
 //    public NhanVien getNhanVienById(String id){
 //        Session session = HibernateUtil.getSessionFactory().openSession();
 //        NhanVien nv = session.find(NhanVien.class, id);
@@ -49,31 +48,42 @@ public class NhanVienRepository {
         return list;
 
     }
-        public void Insert(NhanVien nhanVien) {
-       Transaction transaction = null;
-        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            session.save(nhanVien);
-            transaction.commit();
 
+    public void them(NhanVien nhanVien) {
+        Transaction t = null;
+        try ( Session session = new HibernateUtil().getSessionFactory().openSession();) {
+            t = session.beginTransaction();
+            session.save(nhanVien);
+            t.commit();
         } catch (Exception e) {
             e.printStackTrace();
+            t.rollback(); //hoàn lại kết quả
         }
     }
 
-    public void Update(NhanVien nhanVien) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.getTransaction().begin();
-        session.update(nhanVien);
-        session.getTransaction().commit();
-        session.close();
-
+    public void sua(NhanVien nhanVien) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = s.beginTransaction();
+        s.update(nhanVien);
+        t.commit();
+        s.close();
     }
-    public void Delete(NhanVien id){
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.getTransaction().begin();
-        session.delete(id);
-        session.getTransaction().commit();
-        session.close();
+
+    public void xoa(UUID id) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = s.beginTransaction();
+        NhanVien nv = s.find(NhanVien.class, id);
+        s.delete(nv);
+        t.commit();
+        s.close();
+    }
+
+    public NhanVien findId(UUID id) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = s.beginTransaction();
+        NhanVien nv = s.find(NhanVien.class, id);
+        t.commit();
+        s.close();
+        return nv;
     }
 }

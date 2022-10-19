@@ -17,12 +17,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Entity
-@Data
 @Table(name = "NhanVien")
+@Data
+
 public class NhanVien implements Serializable{
     
     @Id 
@@ -58,21 +63,53 @@ public class NhanVien implements Serializable{
     private String diaChi;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdCH",nullable = false)
+    @JoinColumn(name = "IdCH")
     private CuaHang idCH;   
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdCV",nullable = false)
+    @JoinColumn(name = "IdCV")
     private ChucVu idCV;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IdGuiBC",nullable = false)
+    @JoinColumn(name = "IdGuiBC")
     private NhanVien idGuiBC;
     
     @Column(name = "TrangThai")
     private int trangThai;
+
+    public NhanVien(UUID id, String ma, String ten, String tenDem, String ho, String gioiTinh, Date ngaySinh, String sdt, String matKhau, String diaChi, CuaHang idCH, ChucVu idCV, int trangThai) {
+        this.id = id;
+        this.ma = ma;
+        this.ten = ten;
+        this.tenDem = tenDem;
+        this.ho = ho;
+        this.gioiTinh = gioiTinh;
+        this.ngaySinh = ngaySinh;
+        this.sdt = sdt;
+        this.matKhau = matKhau;
+        this.diaChi = diaChi;
+        this.idCH = idCH;
+        this.idCV = idCV;
+        this.trangThai = trangThai;
+    }
+
+    public NhanVien(String ma, String ten, String tenDem, String ho, String gioiTinh, Date ngaySinh, String sdt, String matKhau, String diaChi, CuaHang idCH, ChucVu idCV, int trangThai) {
+        this.ma = ma;
+        this.ten = ten;
+        this.tenDem = tenDem;
+        this.ho = ho;
+        this.gioiTinh = gioiTinh;
+        this.ngaySinh = ngaySinh;
+        this.sdt = sdt;
+        this.matKhau = matKhau;
+        this.diaChi = diaChi;
+        this.idCH = idCH;
+        this.idCV = idCV;
+        this.trangThai = trangThai;
+    }
+
+    public NhanVien() {
+    }
     
-    @OneToMany(mappedBy = "idGuiBC" , fetch = FetchType.LAZY)
-    private List<NhanVien> listNhanVien;
    
 }

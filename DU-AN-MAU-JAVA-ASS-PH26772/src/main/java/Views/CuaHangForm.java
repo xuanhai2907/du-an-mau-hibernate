@@ -4,6 +4,7 @@ package Views;
 import DomainModels.CuaHang;
 import Services.CuaHangSerivce;
 import Services.ServiceImpl.CuaHangServiceImpl;
+import ViewModels.QLCuaHang;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -14,31 +15,67 @@ import javax.swing.table.DefaultTableModel;
 public class CuaHangForm extends javax.swing.JFrame {
 
     private DefaultTableModel dtm = new DefaultTableModel();
-    private List<CuaHang> listCh = new ArrayList<>();
-    private CuaHangSerivce serivce = new CuaHangServiceImpl();
+    private CuaHangSerivce service = new CuaHangServiceImpl();
+    private List<QLCuaHang> listQLCH = new ArrayList<>();
+
     public CuaHangForm() {
         initComponents();
         jTable1.setModel(dtm);
-        String[] header = {"Id","Ma","Ten","Dia chi","Thanh pho","Quoc gia"};
+        String[] header = {"ID", "Ma ", "Ten ", "Dia chi", "Thanh pho", "Quoc gia"};
         dtm.setColumnIdentifiers(header);
-        listCh = serivce.getAll();
-        txtId.setEditable(false);
-        showData(listCh);
+
+        listQLCH = service.getAll();
+        showData(listQLCH);
     }
-    public void showData(List<CuaHang> list){
+
+    public void showData(List<QLCuaHang> list) {
         dtm.setRowCount(0);
-        for (CuaHang cuaHang : list) {
-            dtm.addRow(cuaHang.toRowData());
+        for (QLCuaHang qLCuaHang : list) {
+            dtm.addRow(qLCuaHang.toRowData());
         }
     }
     public void fillData(int index){
-    CuaHang ch = listCh.get(index);
+    QLCuaHang ch = listQLCH.get(index);
     txtId.setText(String.valueOf(ch.getId()));
     txtMa.setText(ch.getMa());
     txtTen.setText(ch.getTen());
     txtDiaChi.setText(ch.getDiaChi());
     txtThanhPho.setText(ch.getThanhPho());
     txtquocgia.setText(ch.getQuocGia());
+    }
+    public static String gen(String ma) {
+        int last = (int) Math.floor((Math.random()) * 9999);
+        if (last < 1000 && last >= 100) {
+            return ma + "0" + last;
+        }
+        if (last < 100 && last >= 10) {
+            return ma + "00" + last;
+        }
+        if (last < 10) {
+            return ma + "000" + last;
+        }
+
+        return ma + last;
+
+    }
+    private QLCuaHang check() {
+        String ma = txtMa.getText();
+        String ten = txtTen.getText();     
+        String dc = txtDiaChi.getText();
+        String tp = txtThanhPho.getText();
+        String qg = txtquocgia.getText();
+        if (ten.isBlank() || dc.isBlank() || qg.isBlank() || tp.isBlank()) {
+            JOptionPane.showMessageDialog(this, "KHông đươc để trống thông tin");
+            return null;
+        }
+        QLCuaHang qlch = new QLCuaHang();
+        qlch.setMa(gen("CH"));
+        qlch.setTen(ten);
+        qlch.setDiaChi(dc);
+        qlch.setQuocGia(qg);
+        qlch.setThanhPho(tp);
+        return qlch;
+
     }
 
     @SuppressWarnings("unchecked")
@@ -196,101 +233,48 @@ public class CuaHangForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-     private CuaHang checkValidate() {
-        String ten = txtTen.getText();
-        String ma = txtMa.getText();
-        String tp = txtThanhPho.getText();
-        String qg = txtquocgia.getText();
-        String dc = txtDiaChi.getText();
-        if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Mã không được để trống");
-            return null;
-        } else if (ten.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Tên không được để trống");
-            return null;
-        }else if (dc.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Địa chỉ không được để trống");
-            return null;
-        }else if (tp.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Thành phố không được để trống");
-            return null;
-        }else if (qg.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Quốc gia không được để trống");
-            return null;
-        }
-        CuaHang ch = new CuaHang(ma, ten, dc, tp, qg);
-        return ch;
-    }
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        CuaHang ch = checkValidate();
+        QLCuaHang ch = check();
         if (ch == null) {
             return;
         }
-        JOptionPane.showMessageDialog(this, serivce.them(ch));
-        listCh = serivce.getAll();
-        showData(listCh);
+        service.them(ch);
+        listQLCH.clear();
+        listQLCH = service.getAll();
+
+        showData(listQLCH);
     }//GEN-LAST:event_btnThemActionPerformed
-        private CuaHang checkValidateSua() {
-        String ten = txtTen.getText();
-        String id = txtId.getText();
-        String ma = txtMa.getText();
-        String tp = txtThanhPho.getText();
-        String qg = txtquocgia.getText();
-        String dc = txtDiaChi.getText();
-        if (id.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Chọn 1 dòng để sửa");
-            return null;
-        }
-        if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Mã không được để trống");
-            return null;
-        }
-        if (ten.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Tên không được để trống");
-            return null;
-        }
-        if (dc.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Địa chỉ không được để trống");
-            return null;
-        }
-        if (tp.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Thành phố không được để trống");
-            return null;
-        }
-        if (qg.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Quốc gia không được để trống");
-            return null;
-        }
-        
-        CuaHang ch = new CuaHang(UUID.fromString(id), ma, ten, dc, tp, qg);
-        return ch;
-    }
+       
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-     CuaHang ch = checkValidateSua();
-        if (ch == null) {
+     int chon = jTable1.getSelectedRow();
+        if (chon == -1) {
+            JOptionPane.showMessageDialog(this, "Bạn phải chọn 1 dòng để sửa");
             return;
         }
 
-        JOptionPane.showMessageDialog(this, serivce.sua(ch));
-        listCh = serivce.getAll();
-        showData(listCh);
+        QLCuaHang qlch = listQLCH.get(chon);
+        QLCuaHang hang = check();
+        if (hang == null) {
+            return;
+        }
+        hang.setId(qlch.getId());
+        hang.setMa(qlch.getMa());
+        service.sua(hang);
+        listQLCH.set(chon, hang);
+        JOptionPane.showMessageDialog(this, "Sửa thành công");
+        showData(listQLCH);
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-     String ten = txtTen.getText();
-        String id = txtId.getText();
-        String ma = txtMa.getText();
-        String tp = txtThanhPho.getText();
-        String qg = txtquocgia.getText();
-        String dc = txtDiaChi.getText();
-        if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Chọn 1 dòng để xóa");
-        } else {
-            CuaHang ch = new CuaHang(UUID.fromString(id), ma, ten, dc, tp, qg);
-            JOptionPane.showMessageDialog(this, serivce.xoa(ch, ma));
-            listCh = serivce.getAll();
-            showData(listCh);
+     int chon = jTable1.getSelectedRow();
+        if (chon == -1) {
+            JOptionPane.showMessageDialog(this, "Bạn phải chọn 1 dòng để xóa");
+            return;
         }
+        service.xoa(listQLCH.get(chon).getId());
+        listQLCH.remove(chon);
+        JOptionPane.showMessageDialog(this, "Xóa thành công");
+        showData(listQLCH);
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked

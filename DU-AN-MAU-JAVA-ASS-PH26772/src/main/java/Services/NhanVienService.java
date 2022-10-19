@@ -5,6 +5,7 @@
 package Services;
 
 import DomainModels.NhanVien;
+import ViewModels.QLNhanVien;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,12 +20,14 @@ public interface NhanVienService {
 
     public NhanVien getNhanVienById(String ma);
 
-    public List<NhanVien> getList();
+    public List<QLNhanVien> getList();
 
-    public void Insert(NhanVien nhanVien);
+    public void them(QLNhanVien qlnv);
 
-    public void Update(NhanVien nhanVien);
+    public void sua(QLNhanVien qlnv);
 
-    public void Delete(NhanVien id);
+    public void xoa(UUID id);
+
+    public NhanVien finID(UUID id);
 
 }

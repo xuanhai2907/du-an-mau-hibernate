@@ -43,4 +43,11 @@ public class ChucVu implements Serializable {
         this.ma = ma;
         this.ten = ten;
     }
+
+    public ChucVu(UUID id, String ma, String ten) {
+        this.id = id;
+        this.ma = ma;
+        this.ten = ten;
+    }
+    
 }

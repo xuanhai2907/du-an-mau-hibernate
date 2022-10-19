@@ -9,6 +9,8 @@ import Services.NhanVienService;
 import Services.ServiceImpl.GioHangServiceImpl;
 import Services.ServiceImpl.KhachHangServiceImpl;
 import Services.ServiceImpl.NhanVienServiceImpl;
+import ViewModels.QLKhachHang;
+import ViewModels.QLNhanVien;
 import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
@@ -31,14 +33,14 @@ public class GioHangForm extends javax.swing.JFrame {
         qlgh = new GioHangServiceImpl();
         qlnv = new NhanVienServiceImpl();
         qlkh = new KhachHangServiceImpl();
-        List<NhanVien> nhanvien = this.qlnv.getList();
-        for (NhanVien nhanVien : nhanvien) {
+        List<QLNhanVien> nhanvien = this.qlnv.getList();
+        for (QLNhanVien nhanVien : nhanvien) {
             String manv = "";
             manv = nhanVien.getMa();
             this.cbbIdNV.addItem(manv);
         }
-        List<KhachHang> khachhang = qlkh.getList();
-        for (KhachHang khachHang : khachhang) {
+        List<QLKhachHang> khachhang = qlkh.getList();
+        for (QLKhachHang khachHang : khachhang) {
             String makh = "";
             makh = khachHang.getMa();
             this.cbbIdKH.addItem(makh);
@@ -502,23 +504,23 @@ public class GioHangForm extends javax.swing.JFrame {
         String sdt = this.txtSDT.getText();
         String maKH = this.cbbIdKH.getSelectedItem().toString();
         String maNV = this.cbbIdNV.getSelectedItem().toString();
-        KhachHang idKH = null;
-        NhanVien idNV = null;
+        QLKhachHang idKH = null;
+        QLNhanVien idNV = null;
 
         if (ma.trim().length() == 0 || ngayTao.trim().length() == 0 || ngayThanhToan.trim().length() == 0 || tennguoinhan.trim().length() == 0 || diachi.trim().length() == 0 || sdt.trim().length() == 0) {
             JOptionPane.showMessageDialog(this, "Không được để trống");
             return null;
         }
         qlkh = new KhachHangServiceImpl();
-        List<KhachHang> ls = qlkh.getList();
-        for (KhachHang l : ls) {
+        List<QLKhachHang> ls = qlkh.getList();
+        for (QLKhachHang l : ls) {
             if (l.getMa().equalsIgnoreCase(maKH)) {
                 idKH = l;
             }
         }
         qlnv = new NhanVienServiceImpl();
-        List<NhanVien> list = qlnv.getList();
-        for (NhanVien l : list) {
+        List<QLNhanVien> list = qlnv.getList();
+        for (QLNhanVien l : list) {
             if (l.getMa().equalsIgnoreCase(maNV)) {
                 idNV = l;
             }
@@ -541,9 +543,9 @@ public class GioHangForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Ngày sai định dạng");
         }
 
-        GioHang gh = null;
-        gh = new GioHang(idKH, idNV, ma, ngaytao, ngthanhtoan, tennguoinhan, diachi, sdt, tinhtrang);
-        return gh;
+//        GioHang gh = null;
+//        gh = new GioHang(idKH, idNV, ma, ngaytao, ngthanhtoan, tennguoinhan, diachi, sdt, tinhtrang);
+        return null;
     }
 
     public static void main(String args[]) {

@@ -6,7 +6,9 @@ package Services;
 
 import DomainModels.ChiTietSP;
 import ViewModels.ViewModelsChiTietSanPham;
+import ViewModels.ViewModelsHoaDonChiTiet;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -26,4 +28,7 @@ public interface ChiTietSanPhamService {
     String xoa(UUID id);
 
     String sua(ChiTietSP ctSP);
+
+    public boolean updateSoLuong(Map<UUID, ViewModelsChiTietSanPham> mapChiTietSanPham);
+
 }

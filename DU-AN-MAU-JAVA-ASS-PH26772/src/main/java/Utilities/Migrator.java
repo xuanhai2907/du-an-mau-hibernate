@@ -116,6 +116,13 @@ public class Migrator {
         sanPham2.setMa("SP03");
         sanPham2.setId(sanPham2.getId());
         session.save(sanPham2);
+        
+        SanPham sanPham3 = new SanPham();
+        sanPham3.setTen("San pham 4");
+        sanPham3.setMa("SP04");
+        sanPham3.setId(sanPham3.getId());
+        session.save(sanPham3);
+
 
         NSX nsx = new NSX();
         nsx.setMa("NSX01");
@@ -181,9 +188,9 @@ public class Migrator {
         session.save(chucVu1);
 
         NhanVien nhanVien = new NhanVien();
-        nhanVien.setHo("Nguyen");
-        nhanVien.setTenDem("Van");
-        nhanVien.setTen("A");
+        nhanVien.setHo("Phạm");
+        nhanVien.setTenDem("Xuân");
+        nhanVien.setTen("Xuan Hai");
         nhanVien.setMa("NV01");
         nhanVien.setSdt("0123456789");
         nhanVien.setTrangThai(0);
@@ -198,9 +205,9 @@ public class Migrator {
         session.save(nhanVien);
 
         NhanVien nhanVien1 = new NhanVien();
-        nhanVien1.setHo("Nguyen");
-        nhanVien1.setTenDem("Van");
-        nhanVien1.setTen("B");
+        nhanVien1.setHo("Vũ");
+        nhanVien1.setTenDem("Thị");
+        nhanVien1.setTen("Vu Tuyet");
         nhanVien1.setMa("NV02");
         nhanVien1.setSdt("0123456799");
         nhanVien1.setTrangThai(0);
@@ -218,7 +225,7 @@ public class Migrator {
         nhanVien2.setHo("Nguyen");
         nhanVien2.setTenDem("Van");
         nhanVien2.setTen("B");
-        nhanVien2.setMa("NV02");
+        nhanVien2.setMa("NV03");
         nhanVien2.setSdt("0123456799");
         nhanVien2.setTrangThai(0);
         nhanVien2.setMatKhau("1");
@@ -238,10 +245,10 @@ public class Migrator {
         chiTietSP.setIdMauSac(mauSac5);
         chiTietSP.setIdDongSP(dongSP);
         chiTietSP.setNamBH(2022);
-        chiTietSP.setMoTa("Tốt");
-        chiTietSP.setSoLuongTon(0);
-        chiTietSP.setGiaNhap(new BigDecimal(10000.0));
-        chiTietSP.setGiaBan(new BigDecimal(200000.0));
+        chiTietSP.setMoTa("ok");
+        chiTietSP.setSoLuongTon(200);
+        chiTietSP.setGiaNhap(new BigDecimal(10000));
+        chiTietSP.setGiaBan(new BigDecimal(200000));
         session.save(chiTietSP);
 
         ChiTietSP chiTietSP1 = new ChiTietSP();
@@ -251,85 +258,47 @@ public class Migrator {
         chiTietSP1.setIdMauSac(mauSac5);
         chiTietSP1.setIdDongSP(dongSP2);
         chiTietSP1.setNamBH(2022);
-        chiTietSP1.setMoTa("Tốt");
-        chiTietSP1.setSoLuongTon(0);
-        chiTietSP1.setGiaNhap(new BigDecimal(10000.0));
-        chiTietSP1.setGiaBan(new BigDecimal(200000.0));
+        chiTietSP1.setMoTa("chua ok");
+        chiTietSP1.setSoLuongTon(100);
+        chiTietSP1.setGiaNhap(new BigDecimal(4000));
+        chiTietSP1.setGiaBan(new BigDecimal(6000));
         session.save(chiTietSP1);
-
-        ChiTietSP chiTietSP2 = new ChiTietSP();
-        chiTietSP2.setId(chiTietSP2.getId());
-        chiTietSP2.setIdSP(sanPham);
-        chiTietSP2.setIdNsx(nsx);
-        chiTietSP2.setIdMauSac(mauSac5);
-        chiTietSP2.setIdDongSP(dongSP);
-        chiTietSP2.setNamBH(2022);
-        chiTietSP2.setMoTa("Tốt");
-        chiTietSP2.setSoLuongTon(0);
-        chiTietSP2.setGiaNhap(new BigDecimal(10000.0));
-        chiTietSP2.setGiaBan(new BigDecimal(200000.0));
-        session.save(chiTietSP2);
+        
         ChiTietSP chiTietSP3 = new ChiTietSP();
         chiTietSP3.setId(chiTietSP3.getId());
-        chiTietSP3.setIdSP(sanPham);
-        chiTietSP3.setIdNsx(nsx);
+        chiTietSP3.setIdSP(sanPham2);
+        chiTietSP3.setIdNsx(nsx1);
         chiTietSP3.setIdMauSac(mauSac5);
-        chiTietSP3.setIdDongSP(dongSP);
+        chiTietSP3.setIdDongSP(dongSP2);
         chiTietSP3.setNamBH(2022);
-        chiTietSP3.setMoTa("Tốt");
-        chiTietSP3.setSoLuongTon(0);
-        chiTietSP3.setGiaNhap(new BigDecimal(10000.0));
-        chiTietSP3.setGiaBan(new BigDecimal(200000.0));
+        chiTietSP3.setMoTa("sin so");
+        chiTietSP3.setSoLuongTon(100);
+        chiTietSP3.setGiaNhap(new BigDecimal(5000));
+        chiTietSP3.setGiaBan(new BigDecimal(9000));
         session.save(chiTietSP3);
-
+        
         ChiTietSP chiTietSP4 = new ChiTietSP();
         chiTietSP4.setId(chiTietSP4.getId());
-        chiTietSP4.setIdSP(sanPham);
-        chiTietSP4.setIdNsx(nsx);
+        chiTietSP4.setIdSP(sanPham3);
+        chiTietSP4.setIdNsx(nsx1);
         chiTietSP4.setIdMauSac(mauSac5);
-        chiTietSP4.setIdDongSP(dongSP);
+        chiTietSP4.setIdDongSP(dongSP2);
         chiTietSP4.setNamBH(2022);
-        chiTietSP4.setMoTa("Tốt");
-        chiTietSP4.setSoLuongTon(0);
-        chiTietSP4.setGiaNhap(new BigDecimal(10000.0));
-        chiTietSP4.setGiaBan(new BigDecimal(200000.0));
+        chiTietSP4.setMoTa("real");
+        chiTietSP4.setSoLuongTon(100);
+        chiTietSP4.setGiaNhap(new BigDecimal(5000));
+        chiTietSP4.setGiaBan(new BigDecimal(9000));
         session.save(chiTietSP4);
-
-        ChiTietSP chiTietSP5 = new ChiTietSP();
-        chiTietSP5.setId(chiTietSP5.getId());
-        chiTietSP5.setIdSP(sanPham);
-        chiTietSP5.setIdNsx(nsx);
-        chiTietSP5.setIdMauSac(mauSac5);
-        chiTietSP5.setIdDongSP(dongSP);
-        chiTietSP5.setNamBH(2022);
-        chiTietSP5.setMoTa("Tốt");
-        chiTietSP5.setSoLuongTon(0);
-        chiTietSP5.setGiaNhap(new BigDecimal(10000.0));
-        chiTietSP5.setGiaBan(new BigDecimal(200000.0));
-        session.save(chiTietSP5);
-
-        ChiTietSP chiTietSP8 = new ChiTietSP();
-        chiTietSP8.setId(chiTietSP.getId());
-        chiTietSP8.setIdSP(sanPham2);
-        chiTietSP8.setIdNsx(nsx);
-        chiTietSP8.setIdMauSac(mauSac5);
-        chiTietSP8.setIdDongSP(dongSP);
-        chiTietSP8.setNamBH(2022);
-        chiTietSP8.setMoTa("Tốt");
-        chiTietSP8.setSoLuongTon(0);
-        chiTietSP8.setGiaNhap(new BigDecimal(10000.0));
-        chiTietSP8.setGiaBan(new BigDecimal(200000.0));
-        session.save(chiTietSP8);
 
         KhachHang khachHang = new KhachHang();
         khachHang.setId(khachHang.getId());
         khachHang.setMa("KH01");
-        khachHang.setTen("Huy");
-        khachHang.setTenDem("Quoc");
-        khachHang.setHo("Nguyen");
+        khachHang.setTen("Pham");
+        khachHang.setTenDem("Xuan");
+        khachHang.setHo("A");
         khachHang.setNgaySinh(Date.valueOf("2003-04-22"));
         khachHang.setSdt("0123456789");
-        khachHang.setDiaChi("Ba Vi");
+        khachHang.setDiaChi("Hai Duong");
         khachHang.setThanhPho("Hà Nội");
         khachHang.setQuocGia("Viet Nam");
         khachHang.setMatKhau("1");
@@ -338,12 +307,12 @@ public class Migrator {
         KhachHang khachHang1 = new KhachHang();
         khachHang1.setId(khachHang1.getId());
         khachHang1.setMa("KH02");
-        khachHang1.setTen("Huy");
-        khachHang1.setTenDem("Quoc");
-        khachHang1.setHo("Nguyen");
+        khachHang1.setTen("Xuan");
+        khachHang1.setTenDem("Pham");
+        khachHang1.setHo("Hai");
         khachHang1.setNgaySinh(Date.valueOf("2003-04-22"));
         khachHang1.setSdt("0123456789");
-        khachHang1.setDiaChi("Ba Vi");
+        khachHang1.setDiaChi("Nam Dinh");
         khachHang1.setThanhPho("Hà Nội");
         khachHang1.setQuocGia("Viet Nam");
         khachHang1.setMatKhau("1");
@@ -352,12 +321,12 @@ public class Migrator {
         KhachHang khachHang2 = new KhachHang();
         khachHang2.setId(khachHang2.getId());
         khachHang2.setMa("KH03");
-        khachHang2.setTen("Huy");
-        khachHang2.setTenDem("Quoc");
-        khachHang2.setHo("Nguyen");
+        khachHang2.setTen("Hai");
+        khachHang2.setTenDem("Pham");
+        khachHang2.setHo("Xuan");
         khachHang2.setNgaySinh(Date.valueOf("2003-04-22"));
         khachHang2.setSdt("0123456789");
-        khachHang2.setDiaChi("Ba Vi");
+        khachHang2.setDiaChi("Ha Noi");
         khachHang2.setThanhPho("Hà Nội");
         khachHang2.setQuocGia("Viet Nam");
         khachHang2.setMatKhau("1");
@@ -370,7 +339,7 @@ public class Migrator {
         gioHang.setMa("GH01");
         gioHang.setNgayTao(Date.valueOf("2022-05-22"));
         gioHang.setNgayThanhToan(Date.valueOf("2022-06-30"));
-        gioHang.setTenNguoiNhan("Nguyễn Quốc Huy");
+        gioHang.setTenNguoiNhan("Pham Xuan Hai");
         gioHang.setDiaChhi("Hà Nội");
         gioHang.setSdt("0123456789");
         gioHang.setTinhTrang(0);
@@ -383,7 +352,7 @@ public class Migrator {
         gioHang1.setMa("GH02");
         gioHang1.setNgayTao(Date.valueOf("2022-05-22"));
         gioHang1.setNgayThanhToan(Date.valueOf("2022-06-30"));
-        gioHang1.setTenNguoiNhan("Nguyễn Quốc Huy");
+        gioHang1.setTenNguoiNhan("Pham Xuan Hai");
         gioHang1.setDiaChhi("Hà Nội");
         gioHang1.setSdt("0123456789");
         gioHang1.setTinhTrang(1);
@@ -396,7 +365,7 @@ public class Migrator {
         gioHang2.setMa("GH03");
         gioHang2.setNgayTao(Date.valueOf("2022-05-22"));
         gioHang2.setNgayThanhToan(Date.valueOf("2022-06-30"));
-        gioHang2.setTenNguoiNhan("Nguyễn Quốc Huy");
+        gioHang2.setTenNguoiNhan("Pham Xuan Hai");
         gioHang2.setDiaChhi("Hà Nội");
         gioHang2.setSdt("0123456789");
         gioHang2.setTinhTrang(0);
@@ -409,7 +378,7 @@ public class Migrator {
         gioHang3.setMa("GH04");
         gioHang3.setNgayTao(Date.valueOf("2022-05-22"));
         gioHang3.setNgayThanhToan(Date.valueOf("2022-06-30"));
-        gioHang3.setTenNguoiNhan("Nguyễn Quốc Huy");
+        gioHang3.setTenNguoiNhan("Pham Xuan Hai");
         gioHang3.setDiaChhi("Hà Nội");
         gioHang3.setSdt("0123456789");
         gioHang3.setTinhTrang(0);
@@ -422,7 +391,7 @@ public class Migrator {
         gioHang4.setMa("GH05");
         gioHang4.setNgayTao(Date.valueOf("2022-05-22"));
         gioHang4.setNgayThanhToan(Date.valueOf("2022-06-30"));
-        gioHang4.setTenNguoiNhan("Nguyễn Quốc Huy");
+        gioHang4.setTenNguoiNhan("Pham Xuan Hai");
         gioHang4.setDiaChhi("Hà Nội");
         gioHang4.setSdt("0123456789");
         gioHang4.setTinhTrang(0);
@@ -435,7 +404,7 @@ public class Migrator {
         gioHang5.setMa("GH06");
         gioHang5.setNgayTao(Date.valueOf("2022-05-22"));
         gioHang5.setNgayThanhToan(Date.valueOf("2022-06-30"));
-        gioHang5.setTenNguoiNhan("Nguyễn Quốc Huy");
+        gioHang5.setTenNguoiNhan("Pham Xuan Hai");
         gioHang5.setDiaChhi("Hà Nội");
         gioHang5.setSdt("0123456789");
         gioHang5.setTinhTrang(0);
@@ -482,8 +451,8 @@ public class Migrator {
         hd.setNgayThanhToan(Date.valueOf("2022-08-22"));
         hd.setNgayShip(Date.valueOf("2022-08-22"));
         hd.setNgayNhan(Date.valueOf("2022-08-22"));
-        hd.setTinhTrang(0);
-        hd.setTenNguoiNhan("Huy");
+        hd.setTinhTrang(2);
+        hd.setTenNguoiNhan("Hai");
         hd.setDiaChhi("Hà Nội");
         hd.setSdt("0123456789");
         session.save(hd);
@@ -497,8 +466,8 @@ public class Migrator {
         hd1.setNgayThanhToan(Date.valueOf("2022-08-22"));
         hd1.setNgayShip(Date.valueOf("2022-08-22"));
         hd1.setNgayNhan(Date.valueOf("2022-08-22"));
-        hd1.setTinhTrang(0);
-        hd1.setTenNguoiNhan("Huy");
+        hd1.setTinhTrang(2);
+        hd1.setTenNguoiNhan("Hai");
         hd1.setDiaChhi("Hà Nội");
         hd1.setSdt("0123456789");
         session.save(hd1);
@@ -512,8 +481,8 @@ public class Migrator {
         hd2.setNgayThanhToan(Date.valueOf("2022-08-22"));
         hd2.setNgayShip(Date.valueOf("2022-08-22"));
         hd2.setNgayNhan(Date.valueOf("2022-08-22"));
-        hd2.setTinhTrang(0);
-        hd2.setTenNguoiNhan("Huy");
+        hd2.setTinhTrang(2);
+        hd2.setTenNguoiNhan("Hai");
         hd2.setDiaChhi("Hà Nội");
         hd2.setSdt("0123456789");
         session.save(hd2);
@@ -521,21 +490,21 @@ public class Migrator {
         HoaDonChiTiet hdct = new HoaDonChiTiet();
         hdct.setIdHoaDon(hd);
         hdct.setIdChiTietSP(chiTietSP);
-        hdct.setSoLuong(2);
+        hdct.setSoLuong(200);
         hdct.setDonGia(new BigDecimal(10000.0));
         session.save(hdct);
 
         HoaDonChiTiet hdct1 = new HoaDonChiTiet();
         hdct1.setIdHoaDon(hd1);
         hdct1.setIdChiTietSP(chiTietSP);
-        hdct1.setSoLuong(2);
+        hdct1.setSoLuong(100);
         hdct1.setDonGia(new BigDecimal(10000.0));
         session.save(hdct1);
 
         HoaDonChiTiet hdct2 = new HoaDonChiTiet();
         hdct2.setIdHoaDon(hd);
         hdct2.setIdChiTietSP(chiTietSP1);
-        hdct2.setSoLuong(2);
+        hdct2.setSoLuong(50);
         hdct2.setDonGia(new BigDecimal(10000.0));
         session.save(hdct2);
 

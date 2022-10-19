@@ -1,10 +1,14 @@
-
 package ViewModels;
 
 import java.math.BigDecimal;
-
+import java.text.DecimalFormat;
+import java.util.UUID;
 
 public class ViewModelsChiTietSanPham {
+
+    private DecimalFormat formatter = new DecimalFormat("###,###,##0");
+
+    private UUID id;
     private String ma;
     private String ten;
     private int namBh;
@@ -13,7 +17,8 @@ public class ViewModelsChiTietSanPham {
     private BigDecimal giaNhap;
     private BigDecimal giaBan;
 
-    public ViewModelsChiTietSanPham(String ma, String ten, int namBh, String moTa, int slSp, BigDecimal giaNhap, BigDecimal giaBan) {
+    public ViewModelsChiTietSanPham(UUID id, String ma, String ten, int namBh, String moTa, int slSp, BigDecimal giaNhap, BigDecimal giaBan) {
+        this.id  = id;
         this.ma = ma;
         this.ten = ten;
         this.namBh = namBh;
@@ -21,6 +26,14 @@ public class ViewModelsChiTietSanPham {
         this.slSp = slSp;
         this.giaNhap = giaNhap;
         this.giaBan = giaBan;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public ViewModelsChiTietSanPham() {
@@ -81,5 +94,9 @@ public class ViewModelsChiTietSanPham {
     public void setGiaBan(BigDecimal giaBan) {
         this.giaBan = giaBan;
     }
-    
+
+    public String getTongTien(int a, BigDecimal b) {
+        return formatter.format(a * b.doubleValue());
+    }
+   
 }
