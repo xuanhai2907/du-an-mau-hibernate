@@ -21,4 +21,9 @@ public interface KhachHangService {
 
     public KhachHang finID(UUID id);
 
+    public List<QLKhachHang> getListByDiaChi(String diaChi);
+    
+    public QLKhachHang findByMa(String ma);
+    
+    public boolean checkMa(String ma);
 }

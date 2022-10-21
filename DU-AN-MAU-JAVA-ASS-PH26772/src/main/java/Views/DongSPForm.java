@@ -9,46 +9,56 @@ import DomainModels.DongSP;
 import DomainModels.NSX;
 import Services.DongSPService;
 import Services.ServiceImpl.DongSPServiceImpl;
+import Utilities.MaTuTang;
+import ViewModels.QLDongSP;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author MMC
- */
 public class DongSPForm extends javax.swing.JFrame {
-
-    private DefaultTableModel dtm = new DefaultTableModel();
-    private List<DongSP> listSP = new ArrayList<>();
-//    private List<ChiTietSP> listCT = new ArrayList<>();
-    private DongSPService service = new DongSPServiceImpl();
-
+    
+    private List<QLDongSP> listQLDongSP = new ArrayList<>();
+    private DefaultTableModel model = new DefaultTableModel();
+    private DongSPService dongSPService = new DongSPServiceImpl();
+    
     public DongSPForm() {
         initComponents();
-        tbDongSanPham.setModel(dtm);
-        String[] header = {"ID", "Mã", "Tên"};
-        dtm.setColumnIdentifiers(header);
-        listSP = service.getAll();
-        showData(listSP);
+        tbDongSanPham.setModel(model);
+        String[] hearder = {"ID", "Mã", "Tên"};
+        model.setColumnIdentifiers(hearder);
+        listQLDongSP = dongSPService.getAll();
+        showData(listQLDongSP);
     }
-
-    public void showData(List<DongSP> list) {
-        dtm.setRowCount(0);
-        for (DongSP dongSP : list) {
-            dtm.addRow(dongSP.toRowData());
+    
+    public void showData(List<QLDongSP> list) {
+        model.setRowCount(0);
+        for (QLDongSP qLDongSP : list) {
+            model.addRow(qLDongSP.toRowData());
         }
     }
-
-    public void fillData(int i) {
-        DongSP dsp = listSP.get(i);
-        lblID.setText(String.valueOf(dsp.getId()));
-        txtMa.setText(dsp.getMa());
-        txtTen.setText(dsp.getTen());
+    
+    public void fillDataToTable(int index) {
+        QLDongSP qldps = listQLDongSP.get(index);
+        lblID.setText(String.valueOf(qldps.getId()));
+        txtMa.setText(qldps.getMa());
+        txtTen.setText(qldps.getTen());
     }
-
+    
+    public QLDongSP checkValidate() {
+        String ten = txtTen.getText();
+        String ma = txtMa.getText();
+        if (ten.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên không được bỏ trống");
+            return null;
+        }
+        QLDongSP qldsp = new QLDongSP();
+        qldsp.setMa(MaTuTang.gen("DSP"));
+        qldsp.setTen(ten);
+        return qldsp;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -186,96 +196,56 @@ public class DongSPForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        DongSP dsp = checkValidateThem();
-        if (dsp == null) {
+        
+        QLDongSP ql = checkValidate();
+        if (ql == null) {
             return;
+            
         }
-        JOptionPane.showMessageDialog(this, service.them(dsp));
-
-        listSP = service.getAll();
-        showData(listSP);
+        dongSPService.them(ql);
+        listQLDongSP.clear();
+        listQLDongSP = dongSPService.getAll();
+        showData(listQLDongSP);
+        JOptionPane.showMessageDialog(this, "Thêm thành công");
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        DongSP dsp = checkValidateSua();
-
-        if (dsp == null) {
+        int s = tbDongSanPham.getSelectedRow();
+        if (s == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 dòng để sửa");
             return;
         }
-        JOptionPane.showMessageDialog(this, service.sua(dsp));
-
-        listSP = service.getAll();
-        showData(listSP);
+        QLDongSP ql = checkValidate();
+        if (ql == null) {
+            return;
+        }
+        QLDongSP qldsp = listQLDongSP.get(s);
+        ql.setId(qldsp.getId());
+        ql.setMa(qldsp.getMa());
+        dongSPService.sua(ql);
+        listQLDongSP = dongSPService.getAll();
+        showData(listQLDongSP);
+        JOptionPane.showMessageDialog(this, "Sửa thành công");
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-//        int ma = tbDongSanPham.getSelectedRow();
-//        if (ma == -1) {
-//            JOptionPane.showMessageDialog(this, "Chưa chọn dữ liệu.");
-//            return;
-//        }
-//        String maSP = tbDongSanPham.getValueAt(ma, 2).toString();
-//        JOptionPane.showMessageDialog(this, service.xoa(maSP));
-//        listSP = service.getAll();
-//        showData(listSP);
-        String ten = txtTen.getText();
-        String id = lblID.getText();
-        String ma = txtMa.getText();
-        if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "chưa chọn dữ liệu");
-        } else {
-            DongSP dsp = new DongSP(UUID.fromString(id),ma, ten);
-            JOptionPane.showMessageDialog(this, service.xoa(dsp, ten));
-            listSP = service.getAll();
-            showData(listSP);
+        int s = tbDongSanPham.getSelectedRow();
+        if (s == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 dòng để xóa");
+            return;
         }
+        dongSPService.xoa(listQLDongSP.get(s).getId());
+        listQLDongSP.remove(s);
+        showData(listQLDongSP);
+        JOptionPane.showMessageDialog(this, "Xóa thành công");
+
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void tbDongSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDongSanPhamMouseClicked
-        int chon = tbDongSanPham.getSelectedRow();
-        fillData(chon);
+       int s = tbDongSanPham.getSelectedRow();
+        fillDataToTable(s);
     }//GEN-LAST:event_tbDongSanPhamMouseClicked
-
-    private DongSP checkValidateThem() {
-
-        String ma = txtMa.getText();
-        if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "mã không được để trống");
-            return null;
-        }
-        String ten = txtTen.getText();
-
-        if (ten.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ten khong duoc de trong");
-            return null;
-        }
-
-        DongSP dsp = new DongSP(ma, ten);
-        return dsp;
-    }
-
-    private DongSP checkValidateSua() {
-        String id = lblID.getText();
-        if (id.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "chọn một cái để sửa");
-            return null;
-        }
-        String ma = txtMa.getText();
-        if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ma không được để trống");
-            return null;
-        }
-        String ten = txtTen.getText();
-
-        if (ten.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ten khong duoc de trong");
-            return null;
-        }
-
-        DongSP dsp = new DongSP(UUID.fromString(id), ma, ten);
-        return dsp;
-    }
-
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

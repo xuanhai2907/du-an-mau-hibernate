@@ -6,9 +6,9 @@ package Services.ServiceImpl;
 
 import DomainModels.KhachHang;
 import Repositories.KhachHangRepository;
-import Repositories.NhanVienRepository;
 import Services.KhachHangService;
 import ViewModels.QLKhachHang;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,25 +22,24 @@ public class KhachHangServiceImpl implements KhachHangService {
 
     @Override
     public List<QLKhachHang> getList() {
-        list = rp.getList();
-        for (KhachHang khachHang : list) {
-            QLKhachHang qlcv = new QLKhachHang(khachHang.getId(), khachHang.getMa(), khachHang.getTen(), khachHang.getTenDem(),
-                    khachHang.getHo(), khachHang.getNgaySinh(), khachHang.getSdt(), khachHang.getDiaChi(), khachHang.getThanhPho(), khachHang.getQuocGia(), khachHang.getMatKhau());
-            listQLCV.add(qlcv);
-        }
-        return listQLCV;
+        return rp.getList();
+    }
+
+    @Override
+    public List<QLKhachHang> getListByDiaChi(String diaChi) {
+        return rp.getListByDiaChi(diaChi);
     }
 
     @Override
     public void them(QLKhachHang qlkh) {
-        KhachHang kh = new KhachHang(qlkh.getMa(), qlkh.getTen(), qlkh.getTenDem(), qlkh.getHo(), qlkh.getNgaySinh(), qlkh.getSdt(), qlkh.getDiaChi(), qlkh.getThanhPho(), qlkh.getQuocGia(), qlkh.getMatKhau());
+        KhachHang kh = new KhachHang(qlkh.getMa(), qlkh.getTen(), qlkh.getTenDem(), qlkh.getHo(), (Date) qlkh.getNgaySinh(), qlkh.getSdt(), qlkh.getDiaChi(), qlkh.getThanhPho(), qlkh.getQuocGia(), qlkh.getMatKhau());
         rp.them(kh);
 
     }
 
     @Override
     public void sua(QLKhachHang qlkh) {
-        KhachHang kh = new KhachHang(qlkh.getId(), qlkh.getMa(), qlkh.getTen(), qlkh.getTenDem(), qlkh.getHo(), qlkh.getNgaySinh(), qlkh.getSdt(), qlkh.getDiaChi(), qlkh.getThanhPho(), qlkh.getQuocGia(), qlkh.getMatKhau());
+        KhachHang kh = new KhachHang(qlkh.getId(), qlkh.getMa(), qlkh.getTen(), qlkh.getTenDem(), qlkh.getHo(), (Date) qlkh.getNgaySinh(), qlkh.getSdt(), qlkh.getDiaChi(), qlkh.getThanhPho(), qlkh.getQuocGia(), qlkh.getMatKhau());
         rp.sua(kh);
     }
 
@@ -52,6 +51,16 @@ public class KhachHangServiceImpl implements KhachHangService {
     @Override
     public KhachHang finID(UUID id) {
         return rp.findId(id);
+    }
+
+    @Override
+    public QLKhachHang findByMa(String ma) {
+        return rp.findByMa(ma);
+    }
+
+    @Override
+    public boolean checkMa(String ma) {
+        return rp.checkMa(ma);
     }
 
 }

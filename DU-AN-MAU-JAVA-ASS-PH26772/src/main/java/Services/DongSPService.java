@@ -2,16 +2,20 @@
 package Services;
 
 import DomainModels.DongSP;
+import ViewModels.QLDongSP;
 import java.util.List;
+import java.util.UUID;
 
 
 public interface DongSPService {
 
-    List<DongSP> getAll();
+    List<QLDongSP> getAll();
 
-    DongSP them(DongSP dsp);
+    public void them(QLDongSP dsp);
 
-    String xoa(DongSP dspp, String ten);
+    public void xoa(UUID id);
 
-    String sua(DongSP dsp);
+    public void sua(QLDongSP dsp);
+    
+    public DongSP finId(UUID id);
 }

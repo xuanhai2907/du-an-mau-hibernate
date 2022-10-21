@@ -10,6 +10,7 @@ import Services.GioHangService;
 import Services.ServiceImpl.ChiTietSanPhamServiceImpl;
 import Services.ServiceImpl.GioHangServiceImpl;
 import Services.ServiceImpl.GiohangChiTietServicelmpl;
+import ViewModels.QLChiTietSP;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +27,7 @@ public class GioHangChiTietForm extends javax.swing.JFrame {
     private GioHangService qlgh;
     private ChiTietSanPhamService qlctsp;
     private HashMap<String, GioHang> mapGioHang;
-    private HashMap<String, ChiTietSP> mapctsp;
+    private HashMap<String, QLChiTietSP> mapctsp;
 
     public GioHangChiTietForm() {
         initComponents();
@@ -43,8 +44,8 @@ public class GioHangChiTietForm extends javax.swing.JFrame {
             mapGioHang.put(magh, gioHang);
             this.cbbIdGH.addItem(magh);
         }
-        List<ChiTietSP> ctsp = qlctsp.getList();
-        for (ChiTietSP chiTietSP : ctsp) {
+        List<QLChiTietSP> ctsp = qlctsp.getList();
+        for (QLChiTietSP chiTietSP : ctsp) {
             String idgh = chiTietSP.getIdSP().getMa();
             mapctsp.put(idgh, chiTietSP);
             this.cbbIdCTSP.addItem(idgh);
@@ -303,7 +304,7 @@ public class GioHangChiTietForm extends javax.swing.JFrame {
         String GH = this.tblGioHangChiTiet.getValueAt(row, 0).toString();
         String ctsp = this.tblGioHangChiTiet.getValueAt(row, 1).toString();
         GioHangChiTietId chiTietId = new GioHangChiTietId();
-        ghct.setIdChiTietSP(mapctsp.get(ctsp));
+//        ghct.setIdChiTietSP(mapctsp.get(ctsp));
         ghct.setIdGioHang(mapGioHang.get(GH));
         this.qlghct.Update(ghct);
         this.loadTable();

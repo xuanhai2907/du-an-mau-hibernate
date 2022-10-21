@@ -8,41 +8,44 @@ import DomainModels.MauSac;
 
 import Repositories.MauSacRepository;
 import Services.MauSacService;
+import ViewModels.QLMauSac;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import javax.swing.text.html.HTML;
 
-/**
- *
- * @author asus
- */
-public class MauSacServiceImpl implements MauSacService{
+
+public class MauSacServiceImpl implements MauSacService {
+
     private MauSacRepository rp = new MauSacRepository();
+    private List<MauSac> listMauSac = new ArrayList<>();
+    private List<QLMauSac> listQLMauSac = new ArrayList<>();
+
     @Override
-    public List<MauSac> getAll() {
+    public List<QLMauSac> getAll() {
         return rp.getAll();
     }
 
     @Override
-    public MauSac them(MauSac ms) {
-        return rp.them(ms);
+    public void them(QLMauSac qlms) {
+        MauSac ms = new MauSac(qlms.getMa(), qlms.getTen());
+        rp.them(ms);
     }
-
- 
 
     @Override
-    public String sua( MauSac ms) {
-        boolean test = rp.sua( ms);
-        if (test) {
-            return "Sua thanh cong";
-        } else {
-            return "Sua that bai";
-        }
+    public void sua(QLMauSac qlms) {
+        MauSac ms = new MauSac(qlms.getId(), qlms.getMa(), qlms.getTen());
+        rp.sua(ms);
     }
-
 
     @Override
-    public String xoa(MauSac ms, String ma) {
-        return rp.xoa(ms, ma);
+    public void xoa(UUID id) {
+        rp.xoa(id);
     }
-   
-    
+
+    @Override
+    public MauSac findId(UUID id) {
+        return rp.findId(id);
+    }
+
 }

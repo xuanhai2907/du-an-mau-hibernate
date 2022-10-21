@@ -4,96 +4,23 @@
  */
 package Repositories;
 
-
+import DomainModels.MauSac;
 import DomainModels.NSX;
 
 import Utilities.HibernateUtil;
+import ViewModels.QLNSX;
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-/**
- *
- * @author MMC
- */
 public class NSXRepository {
 
-//    public List<NSX> getAll() {
-//        try ( Session s = HibernateUtil.getSessionFactory().openSession();) {
-//            Query q = s.createQuery("From NSX");//HQL 
-//            List<NSX> list = q.getResultList();
-//            return list;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-//
-//    public boolean them(NSX nsx) {
-//        Session session = HibernateUtil.getSessionFactory().openSession();
-//        NSX nsx1 = new NSX();
-//        nsx1.setMa("NSX05");
-//        nsx1.setTen("Hà Nội");
-//        nsx1.setId(nsx.getId());
-//        session.save(nsx1);
-//        session.close();
-//        return true;
-//    }
-//
-//    public boolean sua(NSX nsx) {
-//        Transaction transaction = null;
-//        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
-//            transaction = session.beginTransaction();
-//            session.update(nsx);
-//            transaction.commit();
-//            return true;
-//        } catch (Exception e) {
-//            System.out.println(e.toString());
-//            transaction.rollback();
-//            return false;
-//        }
-//    }
-//
-////    public String xoa(String ten) {
-////        Transaction t = null;
-////        String check = "";
-////        try (Session s = HibernateDemo.getFACTORY().openSession();) {
-////            NSX nsx = s.find(NSX.class, ten);
-////            t = s.beginTransaction();
-////            s.delete(nsx);
-////            check = "Xóa thành công";
-////            t.commit(); // luu lai
-////
-////        } catch (Exception e) {
-////            e.printStackTrace();
-////            check = "Xóa thất bại";
-////        }
-////        return check;
-////    }
-//    public String xoa(NSX nsxx, String ten) {
-//        Transaction tr = null;
-//        String check = "";
-//        try ( Session s = HibernateUtil.getSessionFactory().openSession();) {
-//            tr = s.beginTransaction();
-//
-//            NSX nsx = new NSX(nsxx.getTen());
-//            s.delete(nsxx);
-//            check = "Xóa thành công";
-//            tr.commit();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            check = "Xóa thất bại";
-//        }
-//        return check;
-//    }
-
-     public List<NSX> getAll() {
+    public List<QLNSX> getAll() {
         try ( Session s = HibernateUtil.getSessionFactory().openSession();) {
-
-            Query q = s.createQuery("From NSX");
-            List<NSX> list = q.getResultList();
+            Query q = s.createQuery("select new ViewModels.QLNSX (m.id as id, m.ma as ma, m.ten as ten) from DomainModels.NSX m");
+            List<QLNSX> list = q.getResultList();
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,8 +29,8 @@ public class NSXRepository {
 
     }
 
-    public NSX them( NSX nsx) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+    public void them(NSX nsx) {
+        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction trans = session.getTransaction();
             trans.begin();
             try {
@@ -114,40 +41,40 @@ public class NSXRepository {
                 trans.rollback();
                 nsx = null;
             }
-        } finally {
-            return nsx;
         }
     }
-   public boolean sua(NSX nsx ){
+
+    public void sua(NSX nsx) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-           
+        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.update(nsx);
             transaction.commit();
-            return true;
         } catch (Exception e) {
             System.out.println(e.toString());
             transaction.rollback();
-            return false;
         }
     }
-   public String xoa(NSX nsx,String ten) {
+
+    public void xoa(UUID id) {
         Transaction tr = null;
-        String check = "";
-        try (Session s = HibernateUtil.getSessionFactory().openSession();) {
+        try ( Session s = HibernateUtil.getSessionFactory().openSession();) {
             tr = s.beginTransaction();
-
-            NSX nsx1 = new NSX(nsx.getTen());
+            NSX nsx = s.find(NSX.class, id);
             s.delete(nsx);
-            check = "Xóa thành công";
             tr.commit();
-
         } catch (Exception e) {
             e.printStackTrace();
-            check = "Xóa thất bại";
         }
-        return check;
     }
-    
+
+    public NSX findId(UUID id) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = s.beginTransaction();
+        NSX ch = s.find(NSX.class, id);
+        t.commit();
+        s.close();
+        return ch;
+    }
+
 }

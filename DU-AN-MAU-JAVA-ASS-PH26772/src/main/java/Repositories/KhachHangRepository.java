@@ -6,42 +6,46 @@ package Repositories;
 
 import DomainModels.KhachHang;
 import Utilities.HibernateUtil;
+import ViewModels.QLKhachHang;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-/**
- *
- * @author Acer
- */
 public class KhachHangRepository {
 
-    public List<KhachHang> getList() {
+    public List<QLKhachHang> getList() {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Query query = session.createQuery("From KhachHang");
-        List<KhachHang> list = query.getResultList();
+        Query query = session.createQuery("select new ViewModels.QLKhachHang (m.id as id, m.ma as ma, m.ten as ten, m.tenDem as tenDem, m.ho as ho, m.ngaySinh as ngaySinh, "
+                + " m.sdt as sdt, m.diaChi as diaChi, m.thanhPho as thanhPho, m.quocGia as quocGia, m.matKhau as matKhau ) from DomainModels.KhachHang m ");
+        List<QLKhachHang> list = query.getResultList();
         session.close();
         return list;
-
     }
 
-    public String them(KhachHang khachHang) {
+    public List<QLKhachHang> getListByDiaChi(String diaChi) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Query query = session.createQuery("select new ViewModels.QLKhachHang (m.id as id, m.ma as ma, m.ten as ten, m.tenDem as tenDem, m.ho as ho, m.ngaySinh as ngaySinh, "
+                + " m.sdt as sdt, m.diaChi as diaChi, m.thanhPho as thanhPho, m.quocGia as quocGia, m.matKhau as matKhau ) from DomainModels.KhachHang m where m.diaChi like :diaChi");
+        query.setParameter("diaChi", diaChi);
+        List<QLKhachHang> list = query.getResultList();
+        session.close();
+        return list;
+    }
+
+    public void them(KhachHang khachHang) {
         Transaction t = null;
-        String check;
         try ( Session s = new HibernateUtil().getSessionFactory().openSession();) {
             t = s.beginTransaction();
             s.save(khachHang);
             t.commit();
-            check = "Thêm thành công";
         } catch (Exception e) {
             e.printStackTrace();
             t.rollback(); //hoàn lại kết quả
-            check = "Thêm thất bại";
         }
-        return check;
     }
 
     public void sua(KhachHang khachHang) {
@@ -68,6 +72,32 @@ public class KhachHangRepository {
         t.commit();
         s.close();
         return kh;
+    }
+
+    public QLKhachHang findByMa(String ma) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Query query = session.createQuery("select new ViewModels.QLKhachHang (m.id as id, m.ma as ma, m.ten as ten, m.tenDem as tenDem, m.ho as ho, m.ngaySinh as ngaySinh, "
+                + " m.sdt as sdt, m.diaChi as diaChi, m.thanhPho as thanhPho, m.quocGia as quocGia, m.matKhau as matKhau ) from DomainModels.KhachHang m where m.ma like :ma");
+        query.setParameter("ma", ma);
+        QLKhachHang qLKhachHang = null;
+        try {
+            qLKhachHang = (QLKhachHang) query.getSingleResult();
+        } catch (NoResultException e) {
+//            e.printStackTrace();
+        }
+        session.close();
+        if (qLKhachHang == null) {
+            return null;
+        }
+        return qLKhachHang;
+    }
+    
+    public boolean checkMa(String ma){
+        QLKhachHang ql = findByMa(ma);
+        if(ql != null){
+            return true;
+        }
+        return false;
     }
 
 }

@@ -7,7 +7,9 @@ package Services.ServiceImpl;
 import DomainModels.SanPham;
 import Repositories.SanPhamRepository;
 import Services.SanPhamService;
+import ViewModels.QLSanPham;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -18,35 +20,30 @@ public class SanPhamServiceImpl implements SanPhamService {
     private SanPhamRepository rp = new SanPhamRepository();
 
     @Override
-    public List<SanPham> getAll() {
+    public List<QLSanPham> getAll() {
         return rp.getAll();
     }
 
     @Override
-    public SanPham them(SanPham sp) {
-        return rp.them(sp);
+    public void them(QLSanPham sp) {
+        SanPham s = new SanPham(sp.getMa(), sp.getTen());
+        rp.them(s);
     }
 
- 
-
     @Override
-    public String sua( SanPham sp) {
-        boolean test = rp.sua( sp);
-        if (test) {
-            return "Sua thanh cong";
-        } else {
-            return "Sua that bai";
-        }
+    public void sua( QLSanPham sp) {
+        SanPham s = new SanPham(sp.getId(), sp.getMa(), sp.getTen());
+        rp.sua(s);
     }
 
-//    @Override
-//    public SanPham tim(String ma) {
-//        return rp.tim(ma);
-//    }
+    @Override
+    public void xoa(UUID id) {
+        rp.xoa(id);
+    }
 
     @Override
-    public String xoa(SanPham sp, String ma) {
-        return rp.xoa(sp, ma);
+    public SanPham findId(UUID id) {
+        return rp.findId(id);
     }
 
 }

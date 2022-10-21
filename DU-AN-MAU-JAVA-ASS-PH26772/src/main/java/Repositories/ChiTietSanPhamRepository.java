@@ -2,6 +2,7 @@ package Repositories;
 
 import DomainModels.ChiTietSP;
 import Utilities.HibernateUtil;
+import ViewModels.QLChiTietSP;
 import ViewModels.ViewModelsChiTietSanPham;
 import ViewModels.ViewModelsHoaDonChiTiet;
 import java.util.ArrayList;
@@ -38,17 +39,11 @@ public class ChiTietSanPhamRepository {
         return list;
     }
 
-    public List<ChiTietSP> getList() {
-        Session session = Utilities.HibernateUtil.getSessionFactory().openSession();
-        Query query = session.createQuery("From ChiTietSP");
-        List<ChiTietSP> ls = query.getResultList();
-        return ls;
-    }
 
-    public List<ChiTietSP> getAll() {
+    public List<QLChiTietSP> getList() {
         try ( Session s = HibernateUtil.getSessionFactory().openSession();) {
             Query q = s.createQuery("From ChiTietSP", ChiTietSP.class);//HQL 
-            List<ChiTietSP> list = q.getResultList();
+            List<QLChiTietSP> list = q.getResultList();
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,53 +51,43 @@ public class ChiTietSanPhamRepository {
         return null;
     }
 
-    public ChiTietSP them(ChiTietSP ctSP) {
-        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Transaction trans = session.getTransaction();
-            trans.begin();
-            try {
-                session.save(ctSP);
-                trans.commit();
-            } catch (Exception e) {
-                e.printStackTrace();
-                trans.rollback();
-                ctSP = null;
-            }
-        } finally {
-            return ctSP;
-
+    public void them(ChiTietSP chiTietSP) {
+        Transaction t = null;
+        String check;
+        try ( Session session = new HibernateUtil().getSessionFactory().openSession();) {
+            t = session.beginTransaction();
+            session.save(chiTietSP);
+            t.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            t.rollback(); //hoàn lại kết quả
         }
     }
 
-    public boolean sua(ChiTietSP ctSP) {
-        Transaction transaction = null;
-        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            session.update(ctSP);
-            transaction.commit();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            transaction.rollback();
-            return false;
-        }
+    public void sua(ChiTietSP chiTietSP) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = s.beginTransaction();
+        s.update(chiTietSP);
+        t.commit();
+        s.close();
     }
 
-    public String xoa(UUID id) {
-        Transaction tr = null;
-        String check = "";
-        try ( Session s = HibernateUtil.getSessionFactory().openSession();) {
-            tr = s.beginTransaction();
-            ChiTietSP ct = s.find(ChiTietSP.class, id);
-            s.delete(ct);
-            check = "Xóa thành công";
-            tr.commit();
+    public void xoa(UUID id) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = s.beginTransaction();
+        ChiTietSP chiTietSP = s.find(ChiTietSP.class, id);
+        s.delete(chiTietSP);
+        t.commit();
+        s.close();
+    }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            check = "Xóa thất bại";
-        }
-        return check;
+    public ChiTietSP findId(UUID id) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = s.beginTransaction();
+        ChiTietSP ct = s.find(ChiTietSP.class, id);
+        t.commit();
+        s.close();
+        return ct;
     }
 
     public boolean updateSoLuong(Map<UUID, ViewModelsChiTietSanPham> listMap) {

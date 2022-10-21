@@ -5,20 +5,21 @@
 package Services;
 
 import DomainModels.SanPham;
+import ViewModels.QLSanPham;
 import java.util.List;
+import java.util.UUID;
 
-/**
- *
- * @author asus
- */
+
 public interface SanPhamService {
 
-    List<SanPham> getAll();
+    List<QLSanPham> getAll();
 
-    SanPham them(SanPham sp);
+    public void them(QLSanPham sp);
 
 
-    String sua(SanPham sp);
+    public void sua(QLSanPham sp);
 
-    String xoa(SanPham sp,String ma);
+    public void xoa(UUID id);
+    
+    public SanPham findId(UUID id);
 }

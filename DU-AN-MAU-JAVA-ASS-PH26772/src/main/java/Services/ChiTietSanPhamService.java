@@ -5,6 +5,7 @@
 package Services;
 
 import DomainModels.ChiTietSP;
+import ViewModels.QLChiTietSP;
 import ViewModels.ViewModelsChiTietSanPham;
 import ViewModels.ViewModelsHoaDonChiTiet;
 import java.util.List;
@@ -19,16 +20,15 @@ public interface ChiTietSanPhamService {
 
     public List<ViewModelsChiTietSanPham> getAll(String ten);
 
-    public List<ChiTietSP> getList();
-
-    List<ChiTietSP> getAll();
-
-    ChiTietSP them(ChiTietSP ctSP);
-
-    String xoa(UUID id);
-
-    String sua(ChiTietSP ctSP);
+    public List<QLChiTietSP> getList();
 
     public boolean updateSoLuong(Map<UUID, ViewModelsChiTietSanPham> mapChiTietSanPham);
 
+    public void them(QLChiTietSP qlctsp);
+
+    public void sua(QLChiTietSP qlctsp);
+
+    public void xoa(UUID id);
+
+    public ChiTietSP findID(UUID id);
 }

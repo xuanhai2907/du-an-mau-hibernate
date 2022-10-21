@@ -606,7 +606,7 @@ public class MainJFrame extends javax.swing.JFrame {
         txtMaHd.setText(tbHoaDon.getValueAt(s, 1).toString());
         txtNgayTao.setText(tbHoaDon.getValueAt(s, 2).toString());
         txtTenNv.setText(tbHoaDon.getValueAt(s, 3).toString());
-        txtTongTien.setText(formatter.format(getThanhTien(mapHoaDonChiTiet)));
+        
         this.txtTienKhachDua.setEditable(true);
         ViewModelsHoaDon viewModelsHoaDon = mouseClickHoaDon(s);
 
@@ -616,6 +616,7 @@ public class MainJFrame extends javax.swing.JFrame {
         }
 
         fillChiTietHoaDon();
+        txtTongTien.setText(formatter.format(getThanhTien(mapHoaDonChiTiet)));
 
     }//GEN-LAST:event_tbHoaDonMouseClicked
 

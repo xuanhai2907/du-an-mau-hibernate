@@ -3,6 +3,8 @@ package Views;
 import DomainModels.SanPham;
 import Services.SanPhamService;
 import Services.ServiceImpl.SanPhamServiceImpl;
+import Utilities.MaTuTang;
+import ViewModels.QLSanPham;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -10,11 +12,11 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class SanPhamForm extends javax.swing.JFrame {
-
+    
     private DefaultTableModel dtm = new DefaultTableModel();
-    private List<SanPham> ListSanPham = new ArrayList<>();
+    private List<QLSanPham> ListSanPham = new ArrayList<>();
     private SanPhamService service = new SanPhamServiceImpl();
-
+    
     public SanPhamForm() {
         initComponents();
         jTable1.setModel(dtm);
@@ -23,21 +25,21 @@ public class SanPhamForm extends javax.swing.JFrame {
         ListSanPham = service.getAll();
         showData(ListSanPham);
     }
-
-    public void showData(List<SanPham> list) {
+    
+    public void showData(List<QLSanPham> list) {
         dtm.setRowCount(0);
-        for (SanPham sp : list) {
+        for (QLSanPham sp : list) {
             dtm.addRow(sp.toRowData());
         }
     }
-
+    
     public void fillData(int index) {
-        SanPham sp = ListSanPham.get(index);
+        QLSanPham sp = ListSanPham.get(index);
         txtID.setText(String.valueOf(sp.getId()));
         txtMa.setText(sp.getMa());
         txtTen.setText(sp.getTen());
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -178,95 +180,66 @@ public class SanPhamForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private SanPham checkValidateXoa() {
-        String ID = txtMa.getText();
-        if (ID.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Chon 1 dong de sua");
-            return null;
-        }
-        SanPham sp = new SanPham(ID);
-        return sp;
-    }
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-//        SanPham sp = checkValidateXoa();
-//        if (sp == null) {
-//            return;
-//        }
-////        JOptionPane.showMessageDialog(this, service.xoa(sp));
-//        ListSanPham = service.getAll();
-//        showData(ListSanPham);
-        String ten = txtTen.getText();
-        String id = txtID.getText();
-        String ma = txtMa.getText();
-        if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "chưa chọn dữ liệu");
-        } else {
-          SanPham sp = new SanPham(UUID.fromString(id), ma, ten);
-            JOptionPane.showMessageDialog(this, service.xoa(sp, ma));
-            ListSanPham = service.getAll();
-            showData(ListSanPham);
+        int s = jTable1.getSelectedRow();
+        if (s == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 sản phẩm để xóa");
+            return;
         }
+        service.xoa(ListSanPham.get(s).getId());
+        ListSanPham.remove(s);
+        ListSanPham = service.getAll();
+        showData(ListSanPham);
+        JOptionPane.showMessageDialog(this, "Xóa thành công");
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int chon = jTable1.getSelectedRow();
         fillData(chon);
     }//GEN-LAST:event_jTable1MouseClicked
-    private SanPham checkValidate() {
+    private QLSanPham checkValidate() {
         String ten = txtTen.getText();
         String ma = txtMa.getText();
-        if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ma khong duoc de trong");
-            return null;
-        } else if (ten.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ten khong duoc de trong");
-            return null;
-        }
-        SanPham sp = new SanPham(ma, ten);
-        return sp;
-    }
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        SanPham sp = checkValidate();
-        if (sp == null) {
-            return;
-        }
-        JOptionPane.showMessageDialog(this, service.them(sp));
-        ListSanPham = service.getAll();
-        showData(ListSanPham);
-    }//GEN-LAST:event_btnThemActionPerformed
-
-    private SanPham checkValidateSua() {
-        String id = txtID.getText();
-        if (id.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Chon 1 dong de sua");
-            return null;
-        }
-        String ma = txtMa.getText();
-
-        if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ma khong duoc de trong");
-            return null;
-        }
-        String ten = txtTen.getText();
-
         if (ten.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ten khong duoc de trong");
             return null;
         }
-        SanPham sp = new SanPham(UUID.fromString(id), ma, ten);
+        QLSanPham sp = new QLSanPham();
+        sp.setMa(MaTuTang.gen("SP"));
+        sp.setTen(ten);
         return sp;
     }
-
-    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        SanPham sp = checkValidateSua();
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        QLSanPham sp = checkValidate();
         if (sp == null) {
             return;
         }
-        JOptionPane.showMessageDialog(this, service.sua(sp));
+        service.them(sp);
+        ListSanPham.clear();
         ListSanPham = service.getAll();
         showData(ListSanPham);
-    }//GEN-LAST:event_btnSuaActionPerformed
+        JOptionPane.showMessageDialog(this, "Thêm thành công");
+    }//GEN-LAST:event_btnThemActionPerformed
 
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        int s = jTable1.getSelectedRow();
+        if(s == -1){
+            JOptionPane.showMessageDialog(this, "Chọn 1 dòng để sửa");
+            return;
+        }
+        QLSanPham sp = checkValidate();
+        if (sp == null) {
+            return;
+        }
+        QLSanPham qlsp = ListSanPham.get(s);
+        sp.setId(qlsp.getId());
+        sp.setMa(qlsp.getMa());
+        service.sua(sp);
+        ListSanPham = service.getAll();
+        showData(ListSanPham);
+        JOptionPane.showMessageDialog(this, "Sửa thành công");
+    }//GEN-LAST:event_btnSuaActionPerformed
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

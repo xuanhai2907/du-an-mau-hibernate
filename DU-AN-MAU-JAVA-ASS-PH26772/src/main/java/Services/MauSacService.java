@@ -5,8 +5,10 @@
 package Services;
 
 import DomainModels.MauSac;
+import ViewModels.QLMauSac;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -14,11 +16,13 @@ import java.util.List;
  */
 public interface MauSacService {
 
-    List<MauSac> getAll();
+    List<QLMauSac> getAll();
 
-    MauSac them(MauSac ms);
+    public void them(QLMauSac ms);
 
-    String sua(MauSac ms);
+    public void sua(QLMauSac ms);
 
-    String xoa(MauSac ms, String ma);
+    public void xoa(UUID id);
+    
+    public MauSac findId(UUID id);
 }

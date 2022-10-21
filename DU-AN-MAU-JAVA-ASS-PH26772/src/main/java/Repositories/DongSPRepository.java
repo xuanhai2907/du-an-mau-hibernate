@@ -6,9 +6,10 @@ package Repositories;
 
 import DomainModels.DongSP;
 
-
 import Utilities.HibernateUtil;
+import ViewModels.QLDongSP;
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -19,11 +20,10 @@ import org.hibernate.Transaction;
  */
 public class DongSPRepository {
 
-     public List<DongSP> getAll() {
+    public List<QLDongSP> getAll() {
         try ( Session s = HibernateUtil.getSessionFactory().openSession();) {
-
-            Query q = s.createQuery("From DongSP");
-            List<DongSP> list = q.getResultList();
+            Query q = s.createQuery("select new ViewModels.QLDongSP (m.id as id, m.ma as ma, m.ten as ten) from DomainModels.DongSP m");
+            List<QLDongSP> list = q.getResultList();
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -32,8 +32,8 @@ public class DongSPRepository {
 
     }
 
-    public DongSP them(DongSP dsp) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+    public void them(DongSP dsp) {
+        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction trans = session.getTransaction();
             trans.begin();
             try {
@@ -44,40 +44,39 @@ public class DongSPRepository {
                 trans.rollback();
                 dsp = null;
             }
-        } finally {
-            return dsp;
         }
     }
-   public boolean sua(DongSP dsp ){
+
+    public void sua(DongSP dsp) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-           
+        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.update(dsp);
             transaction.commit();
-            return true;
         } catch (Exception e) {
             System.out.println(e.toString());
             transaction.rollback();
-            return false;
         }
     }
-   public String xoa(DongSP dsp,String ten) {
+
+    public void xoa(UUID id) {
         Transaction tr = null;
-        String check = "";
-        try (Session s = HibernateUtil.getSessionFactory().openSession();) {
+        try ( Session s = HibernateUtil.getSessionFactory().openSession();) {
             tr = s.beginTransaction();
-
-            DongSP dsp1 = new DongSP(dsp.getTen());
-            s.delete(dsp);
-            check = "Xóa thành công";
+            DongSP sp = s.find(DongSP.class, id);
+            s.delete(sp);
             tr.commit();
-
         } catch (Exception e) {
             e.printStackTrace();
-            check = "Xóa thất bại";
         }
-        return check;
+    }
+
+    public DongSP finId(UUID id) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = s.beginTransaction();
+        DongSP ch = s.find(DongSP.class, id);
+        t.commit();
+        s.close();
+        return ch;
     }
 }
-

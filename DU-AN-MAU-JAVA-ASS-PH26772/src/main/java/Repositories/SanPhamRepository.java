@@ -6,22 +6,20 @@ package Repositories;
 
 import DomainModels.SanPham;
 import Utilities.HibernateUtil;
+import ViewModels.QLSanPham;
 
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-/**
- *
- * @author asus
- */
 public class SanPhamRepository {
-    public List<SanPham> getAll() {
-        try ( Session s = HibernateUtil.getSessionFactory().openSession();) {
 
-            Query q = s.createQuery("From SanPham");
-            List<SanPham> list = q.getResultList();
+    public List<QLSanPham> getAll() {
+        try ( Session s = HibernateUtil.getSessionFactory().openSession();) {
+            Query q = s.createQuery("Select new ViewModels.QLSanPham (m.id as id, m.ma as ma, m.ten as ten) from DomainModels.SanPham m");
+            List<QLSanPham> list = q.getResultList();
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -30,8 +28,8 @@ public class SanPhamRepository {
 
     }
 
-    public SanPham them(SanPham sp) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+    public void them(SanPham sp) {
+        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction trans = session.getTransaction();
             trans.begin();
             try {
@@ -42,105 +40,40 @@ public class SanPhamRepository {
                 trans.rollback();
                 sp = null;
             }
-        } finally {
-            return sp;
         }
     }
 
-//    public String xoa(SanPham sp) {
-//        Transaction t = null;
-//        String check = "";
-//        try ( Session s = Hibernate.getFACTORY().openSession();) {
-//
-//            t = s.beginTransaction();
-//            s.delete(sp);
-//            check = "Xoa thanh cong";
-//            t.commit(); // luu lai
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            check = "Xoa that bai";
-//        }
-//        return check;
-//    }
-    public boolean sua(SanPham sp ){
+    public void sua(SanPham sp) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-           
+        try ( Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.update(sp);
             transaction.commit();
-            return true;
         } catch (Exception e) {
             System.out.println(e.toString());
             transaction.rollback();
-            return false;
         }
     }
-//    public SanPham tim(String ma){
-//        SanPham sp = new SanPham();
-//        try (Session session = Hibernate.getFACTORY().openSession()) {
-//            sp = session.get(SanPham.class, ma);
-//        } catch (Exception e) {
-//            System.out.println(e.toString());
-//            return null;
-//        }
-//        return  sp;
-//    }
-    
 
-//    public String sua(SanPham sp) {
-//        Transaction t = null;
-//        String check = "";
-//        try ( Session s = Hibernate.getFACTORY().openSession();) {
-//
-//            t = s.beginTransaction();
-//            s.update(sp);
-//            check = "Sua thanh cong";
-//            t.commit(); // luu lai
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            check = "Sua that bai";
-//        }
-//        return check;
-//    }
-    
-//    public long xoa(long id) {
-//        try (Session session = Hibernate.getFACTORY().openSession()) {
-//            Transaction trans = session.getTransaction();
-//            trans.begin();
-//            try {
-//                String hql = "DELETE Product p WHERE p.id = :id";
-//                Query query = session.createQuery(hql);
-//                query.setParameter("id", id);
-//                int result = query.executeUpdate();
-//                if (result == 0) {
-//                    id = 0;
-//                }
-//                trans.commit();
-//            } catch (Exception e) {
-//                id = -1;
-//            }
-//           
-//        }
-//        return id;
-//    }
-    public String xoa(SanPham sp,String ma) {
+    public void xoa(UUID id) {
         Transaction tr = null;
-        String check = "";
-        try (Session s = HibernateUtil.getSessionFactory().openSession();) {
+        try ( Session s = HibernateUtil.getSessionFactory().openSession();) {
             tr = s.beginTransaction();
-
-            SanPham sp1 = new SanPham(sp.getMa());
+            SanPham sp = s.find(SanPham.class, id);
             s.delete(sp);
-            check = "Xóa thành công";
             tr.commit();
 
         } catch (Exception e) {
             e.printStackTrace();
-            check = "Xóa thất bại";
         }
-        return check;
+    }
+
+    public SanPham findId(UUID id) {
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = s.beginTransaction();
+        SanPham ch = s.find(SanPham.class, id);
+        t.commit();
+        s.close();
+        return ch;
     }
 }

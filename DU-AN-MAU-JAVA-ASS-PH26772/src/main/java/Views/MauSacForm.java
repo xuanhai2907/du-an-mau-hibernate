@@ -1,4 +1,3 @@
-
 package Views;
 
 import DomainModels.MauSac;
@@ -7,6 +6,8 @@ import Services.MauSacService;
 import Services.SanPhamService;
 import Services.ServiceImpl.MauSacServiceImpl;
 import Services.ServiceImpl.SanPhamServiceImpl;
+import Utilities.MaTuTang;
+import ViewModels.QLMauSac;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -15,31 +16,47 @@ import javax.swing.table.DefaultTableModel;
 
 public class MauSacForm extends javax.swing.JFrame {
 
- private DefaultTableModel dtm = new DefaultTableModel();
-    private List<MauSac> listMauSac = new ArrayList<>();
-    private MauSacService service = new MauSacServiceImpl();
+    private MauSacService mauSacService = new MauSacServiceImpl();
+    private List<QLMauSac> listQLMauSac = new ArrayList<>();
+    private DefaultTableModel model = new DefaultTableModel();
+
     public MauSacForm() {
         initComponents();
-        jTable1.setModel(dtm);
-        String[] header = {"ID","Ma ", "Ten "};
-        dtm.setColumnIdentifiers(header);
-        listMauSac = service.getAll();
-        showData(listMauSac);
+        jTable1.setModel(model);
+        String[] header = {"ID", "Ma ", "Ten "};
+        model.setColumnIdentifiers(header);
+        listQLMauSac = mauSacService.getAll();
+        showData(listQLMauSac);
     }
- public void showData(List<MauSac> list) {
-        dtm.setRowCount(0);
-        for (MauSac ms : list) {
-            dtm.addRow(ms.toRowData());
+
+    public void showData(List<QLMauSac> list) {
+        model.setRowCount(0);
+        for (QLMauSac qLMauSac : list) {
+            model.addRow(qLMauSac.toRowData());
         }
     }
 
-    public void fillData(int index) {
-        MauSac ms = listMauSac.get(index);
-        txtID.setText(String.valueOf(ms.getId()));
-        txtMa.setText(ms.getMa());
-        txtTen.setText(ms.getTen());
+    public void fillDataToTable(int index) {
+        QLMauSac qlms = listQLMauSac.get(index);
+        txtID.setText(String.valueOf(qlms.getId()));
+        txtMa.setText(qlms.getMa());
+        txtTen.setText(qlms.getTen());
     }
-    
+
+    private QLMauSac checkValidate() {
+        String ma = txtMa.getText();
+        String ten = txtTen.getText();
+
+        if (ten.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên không được bỏ trống");
+            return null;
+        }
+        QLMauSac ql = new QLMauSac();
+        ql.setMa(MaTuTang.gen("MS"));
+        ql.setTen(ten);
+        return ql;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -140,7 +157,7 @@ public class MauSacForm extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(148, 148, 148)
                         .addComponent(jLabel1)))
-                .addContainerGap(356, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,77 +191,54 @@ public class MauSacForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        int chon = jTable1.getSelectedRow();
-        fillData(chon);
+        int row = jTable1.getSelectedRow();
+        fillDataToTable(row);
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private MauSac checkValidate() {
-        String ten = txtTen.getText();
-        String ma = txtMa.getText();
-        if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ma khong duoc de trong");
-            return null;
-        } else if (ten.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ten khong duoc de trong");
-            return null;
-        }
-        MauSac ms = new MauSac(ma, ten);
-        return ms;
-    }
+
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        MauSac ms = checkValidate();
-        if (ms == null) {
+        QLMauSac qlms = checkValidate();
+        if (qlms == null) {
             return;
         }
-        JOptionPane.showMessageDialog(this, service.them(ms));
-        listMauSac = service.getAll();
-        showData(listMauSac);
+        mauSacService.them(qlms);
+        listQLMauSac.clear();
+        listQLMauSac = mauSacService.getAll();
+        showData(listQLMauSac);
+        JOptionPane.showMessageDialog(this, "Thêm thành công");
     }//GEN-LAST:event_btnThemActionPerformed
-    private MauSac checkValidateSua() {
-        String id = txtID.getText();
-        if (id.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Chon 1 dong de sua");
-            return null;
-        }
-        String ma = txtMa.getText();
 
-        if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ma khong duoc de trong");
-            return null;
-        }
-        String ten = txtTen.getText();
-
-        if (ten.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ten khong duoc de trong");
-            return null;
-        }
-        MauSac ms = new MauSac(UUID.fromString(id), ma, ten);
-        return ms;
-    }
     private void btnSUaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSUaActionPerformed
-       MauSac ms = checkValidateSua();
-        if (ms == null) {
+        int chon = jTable1.getSelectedRow();
+        if (chon == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 dòng để sửa");
             return;
         }
-
-        JOptionPane.showMessageDialog(this, service.sua(ms));
-        listMauSac = service.getAll();
-        showData(listMauSac);
+        QLMauSac qlms = checkValidate();
+        if (qlms == null) {
+            return;
+        }
+        QLMauSac ms = listQLMauSac.get(chon);
+        qlms.setId(ms.getId());
+        qlms.setMa(ms.getMa());
+        mauSacService.sua(qlms);
+        listQLMauSac.set(chon, qlms);
+        showData(listQLMauSac);
+        JOptionPane.showMessageDialog(this, "Sửa thành công");
     }//GEN-LAST:event_btnSUaActionPerformed
 
-    
+
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-     String ten = txtTen.getText();
-        String id = txtID.getText();
-        String ma = txtMa.getText();
-        if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "chưa chọn dữ liệu");
-        } else {
-          MauSac ms = new MauSac(UUID.fromString(id), ma, ten);
-            JOptionPane.showMessageDialog(this, service.xoa(ms, ma));
-            listMauSac = service.getAll();
-            showData(listMauSac);
+        int chon = jTable1.getSelectedRow();
+        if (chon == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 dòng để xóa");
+            return;
         }
+        mauSacService.xoa(listQLMauSac.get(chon).getId());
+        listQLMauSac.remove(chon);
+        showData(listQLMauSac);
+        JOptionPane.showMessageDialog(this, "Xóa thành công");
+
     }//GEN-LAST:event_btnXoaActionPerformed
 
     /**

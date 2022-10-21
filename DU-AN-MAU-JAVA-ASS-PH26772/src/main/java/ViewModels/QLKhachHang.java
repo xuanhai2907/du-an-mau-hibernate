@@ -1,7 +1,7 @@
 
 package ViewModels;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -144,4 +144,17 @@ public class QLKhachHang {
     public Object[] toRowData(){
         return new Object[]{id,ma,ten,tenDem,ho,ngaySinh,sdt,diaChi,thanhPho,quocGia,matKhau};
     }
+    public Object[] toRowData1(){
+        return new Object[]{ma, ten, tenDem, ho, diaChi, this.tenDem + " " + this.ten + " " + this.ho};
+    }
+
+    public QLKhachHang(String ma, String ten, String tenDem, String ho, String diaChi) {
+        this.ma = ma;
+        this.ten = ten;
+        this.tenDem = tenDem;
+        this.ho = ho;
+        this.diaChi = diaChi;
+    }
+
+    
 }

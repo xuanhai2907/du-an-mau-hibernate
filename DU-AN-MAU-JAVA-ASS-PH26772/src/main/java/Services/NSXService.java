@@ -5,15 +5,16 @@
 package Services;
 
 import DomainModels.NSX;
+import ViewModels.QLNSX;
 import java.util.List;
+import java.util.UUID;
 
-/**
- *
- * @author MMC
- */
+
 public interface NSXService {
-    List<NSX> getAll();
-    NSX them(NSX nsx);
-    String xoa(NSX nsxx,String ten);
-    String sua(NSX nsx);
+    List<QLNSX> getAll();
+    public void them(QLNSX nsx);
+    public void xoa(UUID id);
+    public void sua(QLNSX nsx);
+    
+    public NSX findId( UUID id);
 }

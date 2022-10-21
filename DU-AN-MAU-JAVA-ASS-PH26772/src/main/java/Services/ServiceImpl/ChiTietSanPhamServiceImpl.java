@@ -5,10 +5,16 @@
 package Services.ServiceImpl;
 
 import DomainModels.ChiTietSP;
+import DomainModels.DongSP;
+import DomainModels.MauSac;
+import DomainModels.NSX;
+import DomainModels.SanPham;
 import Repositories.ChiTietSanPhamRepository;
 import Services.ChiTietSanPhamService;
+import ViewModels.QLChiTietSP;
 import ViewModels.ViewModelsChiTietSanPham;
 import ViewModels.ViewModelsHoaDonChiTiet;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -27,38 +33,46 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
     }
 
     @Override
-    public List<ChiTietSP> getList() {
-        return repository.getList();
-    }
-
-    @Override
-    public List<ChiTietSP> getAll() {
-        return repository.getAll();
-    }
-
-    @Override
-    public ChiTietSP them(ChiTietSP ctSP) {
-        return repository.them(ctSP);
-    }
-
-    @Override
-    public String xoa(UUID id) {
-        return repository.xoa(id);
-    }
-
-    @Override
-    public String sua(ChiTietSP ctSP) {
-        boolean test = repository.sua(ctSP);
-        System.out.println(ctSP.getId());
-        if (test) {
-            return "Sửa thành công";
-        } else {
-            return "Sửa thất bại";
-        }
-    }
-
-    @Override
     public boolean updateSoLuong(Map<UUID, ViewModelsChiTietSanPham> mapChiTietSanPham) {
         return repository.updateSoLuong(mapChiTietSanPham);
     }
+
+    @Override
+    public void them(QLChiTietSP qlctsp) {
+        DongSP dsp = qlctsp.getIdDongSP();
+        MauSac ms = qlctsp.getIdMauSac();
+        NSX nsx = qlctsp.getIdNsx();
+        SanPham sp = qlctsp.getIdSP();
+
+        ChiTietSP ctsp = new ChiTietSP(qlctsp.getGiaBan(), qlctsp.getGiaNhap(), qlctsp.getMoTa(),
+                qlctsp.getNamBH(), qlctsp.getSoLuongTon(), dsp, ms, nsx, sp);
+        repository.them(ctsp);
+    }
+
+    @Override
+    public void sua(QLChiTietSP qlctsp) {
+        DongSP dsp = qlctsp.getIdDongSP();
+        MauSac ms = qlctsp.getIdMauSac();
+        NSX nsx = qlctsp.getIdNsx();
+        SanPham sp = qlctsp.getIdSP();
+
+        ChiTietSP ctsp = new ChiTietSP(qlctsp.getId(), sp, nsx, ms, dsp, qlctsp.getNamBH(), qlctsp.getMoTa(), qlctsp.getSoLuongTon(), qlctsp.getGiaBan(), qlctsp.getGiaNhap());
+        repository.sua(ctsp);
+    }
+
+    @Override
+    public void xoa(UUID id) {
+        repository.xoa(id);
+    }
+
+    @Override
+    public ChiTietSP findID(UUID id) {
+        return repository.findId(id);
+    }
+
+    @Override
+    public List<QLChiTietSP> getList() {
+        return repository.getList();
+    }
+
 }
