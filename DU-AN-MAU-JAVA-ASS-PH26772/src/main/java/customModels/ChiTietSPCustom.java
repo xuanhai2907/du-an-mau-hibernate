@@ -1,13 +1,13 @@
-package ViewModels;
+package customModels;
 
-import DomainModels.DongSP;
-import DomainModels.MauSac;
-import DomainModels.NSX;
-import DomainModels.SanPham;
+import domainModels.DongSP;
+import domainModels.MauSac;
+import domainModels.NSX;
+import domainModels.SanPham;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class QLChiTietSP {
+public class ChiTietSPCustom {
 
     private UUID id;
     private BigDecimal giaBan;
@@ -20,10 +20,10 @@ public class QLChiTietSP {
     private NSX idNsx;
     private SanPham idSP;
 
-    public QLChiTietSP() {
+    public ChiTietSPCustom() {
     }
 
-    public QLChiTietSP(UUID id, BigDecimal giaBan, BigDecimal giaNhap, String moTa, int namBH, int soLuongTon, DongSP idDongSP, MauSac idMauSac, NSX idNsx, SanPham idSP) {
+    public ChiTietSPCustom(UUID id, BigDecimal giaBan, BigDecimal giaNhap, String moTa, int namBH, int soLuongTon, DongSP idDongSP, MauSac idMauSac, NSX idNsx, SanPham idSP) {
         this.id = id;
         this.giaBan = giaBan;
         this.giaNhap = giaNhap;
@@ -36,7 +36,7 @@ public class QLChiTietSP {
         this.idSP = idSP;
     }
 
-    public QLChiTietSP(BigDecimal giaBan, BigDecimal giaNhap, String moTa, int namBH, int soLuongTon, DongSP idDongSP, MauSac idMauSac, NSX idNsx, SanPham idSP) {
+    public ChiTietSPCustom(BigDecimal giaBan, BigDecimal giaNhap, String moTa, int namBH, int soLuongTon, DongSP idDongSP, MauSac idMauSac, NSX idNsx, SanPham idSP) {
         this.giaBan = giaBan;
         this.giaNhap = giaNhap;
         this.moTa = moTa;
@@ -128,6 +128,21 @@ public class QLChiTietSP {
         this.idSP = idSP;
     }
 
+    public ChiTietSPCustom(UUID id, int namBH, String moTa, int soLuongTon, BigDecimal giaNhap) {
+        this.id = id;
+        this.namBH = namBH;
+        this.moTa = moTa;
+        this.giaNhap = giaNhap;
+        this.soLuongTon = soLuongTon;
+    }
+
+    public ChiTietSPCustom(int namBH, String moTa, int soLuongTon, BigDecimal giaNhap) {
+        this.namBH = namBH;
+        this.moTa = moTa;
+        this.giaNhap = giaNhap;
+        this.soLuongTon = soLuongTon;
+    }
+
     @Override
     public String toString() {
         return "QLChiTietSP{" + "id=" + id + ", giaBan=" + giaBan + ", giaNhap=" + giaNhap + ", moTa=" + moTa + ", namBH=" + namBH + ", soLuongTon=" + soLuongTon + ", idDongSP=" + idDongSP + ", idMauSac=" + idMauSac + ", idNsx=" + idNsx + ", idSP=" + idSP + '}';
@@ -135,5 +150,9 @@ public class QLChiTietSP {
 
     public Object[] toRowData() {
         return new Object[]{id, giaBan, giaNhap, moTa, namBH, soLuongTon, idDongSP.getTen(), idMauSac.getTen(), idNsx.getTen(), idSP.getTen()};
+    }
+
+    public Object[] toRowData1() {
+        return new Object[]{id, namBH, moTa, soLuongTon, giaNhap, soLuongTon > 900 ? "Nhiều sp" : "Ít sp"};
     }
 }

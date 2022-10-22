@@ -1,20 +1,23 @@
 
-package ViewModels;
+package customModels;
 
 import java.util.UUID;
 
-
-public class QLChucVu {
-
-    private UUID id;   
+public class NSXCustom {
+    private UUID id;
     private String ma;
     private String ten;
 
-    public QLChucVu() {
+    public NSXCustom(UUID id, String ma, String ten) {
+        this.id = id;
+        this.ma = ma;
+        this.ten = ten;
     }
 
-    public QLChucVu(UUID id, String ma, String ten) {
-        this.id = id;
+    public NSXCustom() {
+    }
+
+    public NSXCustom(String ma, String ten) {
         this.ma = ma;
         this.ten = ten;
     }
@@ -43,18 +46,11 @@ public class QLChucVu {
         this.ten = ten;
     }
 
-    public QLChucVu(String ma, String ten) {
-        this.ma = ma;
-        this.ten = ten;
-    }
-
     @Override
     public String toString() {
-        return "QLChucVu{" + "id=" + id + ", ma=" + ma + ", ten=" + ten + '}';
+        return "QLNSX{" + "id=" + id + ", ma=" + ma + ", ten=" + ten + '}';
     }
-    
     public Object[] toRowData(){
         return new Object[]{id,ma,ten};
     }
-    
 }

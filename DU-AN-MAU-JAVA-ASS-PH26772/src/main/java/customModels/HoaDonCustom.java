@@ -1,12 +1,12 @@
-package ViewModels;
+package customModels;
 
-import DomainModels.KhachHang;
-import DomainModels.NhanVien;
-import Services.HoaDonService;
+import domainModels.KhachHang;
+import domainModels.NhanVien;
+import services.HoaDonService;
 import java.sql.Date;
 import java.util.UUID;
 
-public class QLHoaDon {
+public class HoaDonCustom {
 
     private UUID id;
     private String ma;
@@ -21,10 +21,10 @@ public class QLHoaDon {
     private KhachHang idKH;
     private NhanVien idNV;
 
-    public QLHoaDon() {
+    public HoaDonCustom() {
     }
 
-    public QLHoaDon(UUID id, String ma, String diaChi, String sdt, String tenNguoiNhan, Date ngayNhan, Date ngayShip, Date ngayTao, Date ngayThanhToan, int tinhTrang, KhachHang idKH, NhanVien idNV) {
+    public HoaDonCustom(UUID id, String ma, String diaChi, String sdt, String tenNguoiNhan, Date ngayNhan, Date ngayShip, Date ngayTao, Date ngayThanhToan, int tinhTrang, KhachHang idKH, NhanVien idNV) {
         this.id = id;
         this.ma = ma;
         this.diaChi = diaChi;
@@ -39,7 +39,7 @@ public class QLHoaDon {
         this.idNV = idNV;
     }
 
-    public QLHoaDon(String ma, String diaChi, String sdt, String tenNguoiNhan, Date ngayNhan, Date ngayShip, Date ngayTao, Date ngayThanhToan, int tinhTrang, KhachHang idKH, NhanVien idNV) {
+    public HoaDonCustom(String ma, String diaChi, String sdt, String tenNguoiNhan, Date ngayNhan, Date ngayShip, Date ngayTao, Date ngayThanhToan, int tinhTrang, KhachHang idKH, NhanVien idNV) {
         this.ma = ma;
         this.diaChi = diaChi;
         this.sdt = sdt;

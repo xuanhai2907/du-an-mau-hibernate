@@ -1,21 +1,21 @@
-package ViewModels;
+package customModels;
 
-import DomainModels.ChiTietSP;
-import DomainModels.HoaDon;
+import domainModels.ChiTietSP;
+import domainModels.HoaDon;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class QLHoaDonChiTiet {
+public class HoaDonChiTietCustom {
 
     private ChiTietSP idChiTietSP;
     private HoaDon idHoaDon;
     private BigDecimal donGia;
     private int soLuong;
 
-    public QLHoaDonChiTiet() {
+    public HoaDonChiTietCustom() {
     }
 
-    public QLHoaDonChiTiet(ChiTietSP idChiTietSP, HoaDon idHoaDon, BigDecimal donGia, int soLuong) {
+    public HoaDonChiTietCustom(ChiTietSP idChiTietSP, HoaDon idHoaDon, BigDecimal donGia, int soLuong) {
         this.idChiTietSP = idChiTietSP;
         this.idHoaDon = idHoaDon;
         this.donGia = donGia;

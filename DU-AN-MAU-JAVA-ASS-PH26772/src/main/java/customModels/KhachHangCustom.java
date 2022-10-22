@@ -1,11 +1,11 @@
 
-package ViewModels;
+package customModels;
 
 import java.util.Date;
 import java.util.UUID;
 
 
-public class QLKhachHang {
+public class KhachHangCustom {
     private UUID id;
     private String ma;
     private String ten;
@@ -18,10 +18,10 @@ public class QLKhachHang {
     private String quocGia;
     private String matKhau;
 
-    public QLKhachHang() {
+    public KhachHangCustom() {
     }
 
-    public QLKhachHang(UUID id, String ma, String ten, String tenDem, String ho, Date ngaySinh, String sdt, String diaChi, String thanhPho, String quocGia, String matKhau) {
+    public KhachHangCustom(UUID id, String ma, String ten, String tenDem, String ho, Date ngaySinh, String sdt, String diaChi, String thanhPho, String quocGia, String matKhau) {
         this.id = id;
         this.ma = ma;
         this.ten = ten;
@@ -35,7 +35,7 @@ public class QLKhachHang {
         this.matKhau = matKhau;
     }
 
-    public QLKhachHang(String ma, String ten, String tenDem, String ho, Date ngaySinh, String sdt, String diaChi, String thanhPho, String quocGia, String matKhau) {
+    public KhachHangCustom(String ma, String ten, String tenDem, String ho, Date ngaySinh, String sdt, String diaChi, String thanhPho, String quocGia, String matKhau) {
         this.ma = ma;
         this.ten = ten;
         this.tenDem = tenDem;
@@ -148,7 +148,7 @@ public class QLKhachHang {
         return new Object[]{ma, ten, tenDem, ho, diaChi, this.tenDem + " " + this.ten + " " + this.ho};
     }
 
-    public QLKhachHang(String ma, String ten, String tenDem, String ho, String diaChi) {
+    public KhachHangCustom(String ma, String ten, String tenDem, String ho, String diaChi) {
         this.ma = ma;
         this.ten = ten;
         this.tenDem = tenDem;

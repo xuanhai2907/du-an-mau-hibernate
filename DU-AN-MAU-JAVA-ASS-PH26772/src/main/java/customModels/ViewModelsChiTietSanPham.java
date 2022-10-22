@@ -1,4 +1,4 @@
-package ViewModels;
+package customModels;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;

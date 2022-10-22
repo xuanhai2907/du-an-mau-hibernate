@@ -1,8 +1,8 @@
-package ViewModels;
+package customModels;
 
 import java.util.UUID;
 
-public class QLCuaHang {
+public class CuaHangCustom {
 
     private UUID id;
     
@@ -12,10 +12,10 @@ public class QLCuaHang {
     private String thanhPho;
     private String quocGia;
 
-    public QLCuaHang() {
+    public CuaHangCustom() {
     }
 
-    public QLCuaHang(UUID id, String ma, String ten, String diaChi, String thanhPho, String quocGia) {
+    public CuaHangCustom(UUID id, String ma, String ten, String diaChi, String thanhPho, String quocGia) {
         this.id = id;
         this.ma = ma;
         this.ten = ten;
@@ -72,7 +72,7 @@ public class QLCuaHang {
         this.quocGia = quocGia;
     }
 
-    public QLCuaHang(String ma, String ten, String diaChi, String thanhPho, String quocGia) {
+    public CuaHangCustom(String ma, String ten, String diaChi, String thanhPho, String quocGia) {
         this.ma = ma;
         this.ten = ten;
         this.diaChi = diaChi;

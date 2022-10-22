@@ -2,30 +2,32 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package ViewModels;
+package customModels;
 
 import java.util.UUID;
 
 /**
  *
- * @author window
+ * @author asus
  */
-public class ViewModelsChucVu {
+public class SanPhamCustom {
+
     private UUID id;
     private String ma;
     private String ten;
 
-    public ViewModelsChucVu(UUID id, String ma, String ten) {
+    public SanPhamCustom() {
+    }
+
+    public SanPhamCustom(UUID id, String ma, String ten) {
         this.id = id;
         this.ma = ma;
         this.ten = ten;
     }
-    public ViewModelsChucVu( String ma, String ten) {
+
+    public SanPhamCustom(String ma, String ten) {
         this.ma = ma;
         this.ten = ten;
-    }
-
-    public ViewModelsChucVu() {
     }
 
     public UUID getId() {
@@ -51,6 +53,13 @@ public class ViewModelsChucVu {
     public void setTen(String ten) {
         this.ten = ten;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "QLSanPham{" + "id=" + id + ", ma=" + ma + ", ten=" + ten + '}';
+    }
+
+    public Object[] toRowData() {
+        return new Object[]{id, ma, ten};
+    }
 }

@@ -1,11 +1,11 @@
-package ViewModels;
+package customModels;
 
-import DomainModels.ChucVu;
-import DomainModels.CuaHang;
-import java.sql.Date;
+import domainModels.ChucVu;
+import domainModels.CuaHang;
+import java.util.Date;
 import java.util.UUID;
 
-public class QLNhanVien {
+public class NhanVienCustom {
 
     private UUID id;
     private String ma;
@@ -21,10 +21,10 @@ public class QLNhanVien {
     private ChucVu idCV;
     private int trangThai;
 
-    public QLNhanVien() {
+    public NhanVienCustom() {
     }
 
-    public QLNhanVien(UUID id, String ma, String ten, String tenDem, String ho, String gioiTinh, Date ngaySinh, String sdt, String matkhau, String diaChi, CuaHang idCH, ChucVu idCV, int trangThai) {
+    public NhanVienCustom(UUID id, String ma, String ten, String tenDem, String ho, String gioiTinh, Date ngaySinh, String sdt, String matkhau, String diaChi, CuaHang idCH, ChucVu idCV, int trangThai) {
         this.id = id;
         this.ma = ma;
         this.ten = ten;
@@ -40,7 +40,7 @@ public class QLNhanVien {
         this.trangThai = trangThai;
     }
 
-    public QLNhanVien(String ma, String ten, String tenDem, String ho, String gioiTinh, Date ngaySinh, String sdt, String matkhau, String diaChi, CuaHang idCH, ChucVu idCV, int trangThai) {
+    public NhanVienCustom(String ma, String ten, String tenDem, String ho, String gioiTinh, Date ngaySinh, String sdt, String matkhau, String diaChi, CuaHang idCH, ChucVu idCV, int trangThai) {
         this.ma = ma;
         this.ten = ten;
         this.tenDem = tenDem;
@@ -52,6 +52,33 @@ public class QLNhanVien {
         this.diaChi = diaChi;
         this.idCH = idCH;
         this.idCV = idCV;
+        this.trangThai = trangThai;
+    }
+
+    public NhanVienCustom(String ma, String ten, String tenDem, String ho, String gioiTinh, Date ngaySinh, String sdt, String matkhau, String diaChi, int trangThai) {
+        this.ma = ma;
+        this.ten = ten;
+        this.tenDem = tenDem;
+        this.ho = ho;
+        this.gioiTinh = gioiTinh;
+        this.ngaySinh = ngaySinh;
+        this.sdt = sdt;
+        this.matkhau = matkhau;
+        this.diaChi = diaChi;
+        this.trangThai = trangThai;
+    }
+
+    public NhanVienCustom(UUID id, String ma, String ten, String tenDem, String ho, String gioiTinh, Date ngaySinh, String sdt, String matkhau, String diaChi, int trangThai) {
+        this.id = id;
+        this.ma = ma;
+        this.ten = ten;
+        this.tenDem = tenDem;
+        this.ho = ho;
+        this.gioiTinh = gioiTinh;
+        this.ngaySinh = ngaySinh;
+        this.sdt = sdt;
+        this.matkhau = matkhau;
+        this.diaChi = diaChi;
         this.trangThai = trangThai;
     }
 
@@ -166,5 +193,13 @@ public class QLNhanVien {
 
     public Object[] toRowData() {
         return new Object[]{id, ma, ho + " " + tenDem + " " + ten, gioiTinh, ngaySinh, sdt, diaChi, matkhau, idCH.getTen(), idCV.getTen(), (trangThai == 1 ? "Hoạt động" : "Nghỉ")};
+    }
+
+    public Object[] toRowData1() {
+        return new Object[]{ma, ho + " " + tenDem + " " + ten, sdt, diaChi};
+    }
+    
+    public Object[] toRowData2() {
+        return new Object[]{ma, ho + " " + tenDem + " " + ten, gioiTinh, sdt};
     }
 }
