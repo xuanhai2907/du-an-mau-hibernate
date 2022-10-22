@@ -2,130 +2,103 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Views;
+package views;
 
-import DomainModels.ChiTietSP;
-import DomainModels.DongSP;
-import DomainModels.MauSac;
-import DomainModels.NSX;
-import DomainModels.SanPham;
-import Services.*;
-import Services.ServiceImpl.*;
+import services.NSXService;
+import services.MauSacService;
+import services.SanPhamService;
+import services.serviceImpl.DongSPServiceImpl;
+import services.serviceImpl.NSXServiceImpl;
+import services.serviceImpl.MauSacServiceImpl;
+import services.serviceImpl.SanPhamServiceImpl;
+import services.DongSPService;
+import services.ChiTietSanPhamService;
+import services.serviceImpl.ChiTietSanPhamServiceImpl;
+import customModels.ChiTietSPCustom;
+import customModels.DongSPCustom;
+import customModels.MauSacCustom;
+import customModels.NSXCustom;
+import customModels.SanPhamCustom;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author MMC
- */
-public class FormChiTietSP extends javax.swing.JFrame {
+public class ChiTietSpForm extends javax.swing.JFrame {
 
     private DefaultTableModel dtm = new DefaultTableModel();
-    private DefaultComboBoxModel dcbm = new DefaultComboBoxModel();
-    private List<ChiTietSP> listCT = new ArrayList<>();
-    private ChiTietSanPhamService serviceCT = new ChiTietSanPhamServiceImpl();
-    private List<DongSP> listDSP = new ArrayList<>();
-    private DongSPService serviceDSP = new DongSPServiceImpl();
-    private List<MauSac> listMS = new ArrayList<>();
-    private MauSacService serviceMS = new MauSacServiceImpl();
-    private List<NSX> listNSX = new ArrayList<>();
-    private NSXService serviceNSX = new NSXServiceImpl();
-    private List<SanPham> listSP = new ArrayList<>();
-    private SanPhamService serviceSP = new SanPhamServiceImpl();
-    private HashMap<String, NSX> mapNSX = new HashMap<>();
-    private HashMap<String, DongSP> mapDong = new HashMap<>();
-    private HashMap<String, SanPham> mapSP = new HashMap<>();
-    private HashMap<String, MauSac> mapMS = new HashMap<>();
+    private List<ChiTietSPCustom> listQLCTSP = new ArrayList<>();
+    private List<DongSPCustom> listQLDSP = new ArrayList<>();
+    private List<MauSacCustom> listQLMS = new ArrayList<>();
+    private List<NSXCustom> listQLNSX = new ArrayList<>();
+    private List<SanPhamCustom> listQLSP = new ArrayList<>();
+    private ChiTietSanPhamService service = new ChiTietSanPhamServiceImpl();
+    private DongSPService dsps = new DongSPServiceImpl();
+    private MauSacService mss = new MauSacServiceImpl();
+    private NSXService nsxs = new NSXServiceImpl();
+    private SanPhamService sps = new SanPhamServiceImpl();
 
-    public FormChiTietSP() {
+    public ChiTietSpForm() {
         initComponents();
         jTable1.setModel(dtm);
-
-        String[] headers = {"GiaBan", "GiaNhap", "MoTa", "NamBH", "SoLuongTon", "TenDSP", "TenMS", "TenNSX", "TenSP",};
-        dtm.setColumnIdentifiers(headers);
-        listCT = serviceCT.getAll();
-        loadCBBSp();
-        LoadCbbDongSP();
-        loadCbbNSX();
-        loadCbbMauSac();
-        showData(listCT);
-    }
-
-    public void loadCbbNSX() {
-
-        List<NSX> listSX = serviceNSX.getAll();
-        for (NSX nsx : listSX) {
-            this.cbbNSX.addItem(nsx.getTen());
-            mapNSX.put(nsx.getTen(), nsx);
-        }
+        String[] header = {"ID", "Gia ban", "Gia nhap", "Mo ta", "Nam BH", "So luong ton", "IdDSP", "IdMS", "IdNSX", "IDSP"};
+        dtm.setColumnIdentifiers(header);
+        listQLCTSP = service.getList();
+        loadListCBB();
+        LoadCbb();
+        showData(listQLCTSP);
 
     }
 
-    public void loadCBBSp() {
-        List<SanPham> listP = serviceSP.getAll();
-        for (SanPham sanPham : listP) {
-            this.cbbSP.addItem(sanPham.getTen());
-            mapSP.put(sanPham.getTen(), sanPham);
-        }
+    public void loadListCBB() {
+        listQLDSP = dsps.getAll();
+        listQLMS = mss.getAll();
+        listQLNSX = nsxs.getAll();
+        listQLSP = sps.getAll();
     }
 
-    public void LoadCbbDongSP() {
-        List<DongSP> listD = serviceDSP.getAll();
-        for (DongSP list : listD) {
-            cbbDongSP.addItem(list.getTen());
-            mapDong.put(list.getTen(), list);
-        }
-
-    }
-
-    public void loadCbbMauSac() {
-        List<MauSac> listM = serviceMS.getAll();
-        for (MauSac mauSac : listM) {
-            cbbMauSac.addItem(mauSac.getTen());
-            mapMS.put(mauSac.getTen(), mauSac);
-        }
-
-    }
-
-    public void showData(List<ChiTietSP> list) {
+    public void showData(List<ChiTietSPCustom> list) {
         dtm.setRowCount(0);
-        int i = 0;
-        for (ChiTietSP chiTietSP : list) {
-            i++;
-            dtm.addRow(chiTietSP.toRowData());
+        for (ChiTietSPCustom ct : list) {
+            dtm.addRow(ct.toRowData());
         }
     }
 
-    public void fillData(int i) {
-        ChiTietSP sp = listCT.get(i);
-        lblID.setText(String.valueOf(sp.getId()));
+    public void fillData(int index) {
+        ChiTietSPCustom ql = listQLCTSP.get(index);
+        lblID.setText(String.valueOf(ql.getId()));
+        txtGiaBan.setText(String.valueOf(ql.getGiaBan()));
+        txtGiaNhap.setText(String.valueOf(ql.getGiaNhap()));
+        txtMoTa.setText(ql.getMoTa());
+        txtNamBH.setText(String.valueOf(ql.getNamBH()));
+        txtSoLuongTon.setText(String.valueOf(ql.getSoLuongTon()));
+        cbbDongSP.setSelectedItem(ql.getIdDongSP().getTen());
+        cbbSP.setSelectedItem(ql.getIdSP().getTen());
+        cbbMauSac.setSelectedItem(ql.getIdMauSac().getTen());
+        cbbNSX.setSelectedItem(ql.getIdNsx().getTen());
 
-        txtGiaBan.setText(String.valueOf(sp.getGiaBan()));
-        txtGiaNhap.setText(String.valueOf(sp.getGiaNhap()));
-        txtMoTa.setText(sp.getMoTa());
-        txtNamBH.setText(String.valueOf(sp.getNamBH()));
-        txtSoLuongTon.setText(String.valueOf(sp.getSoLuongTon()));
+    }
 
-        String maD = sp.getIdDongSP().getTen();
-        cbbDongSP.setSelectedItem(maD);
+    public void LoadCbb() {
+        cbbDongSP.removeAllItems();
+        cbbSP.removeAllItems();
+        cbbMauSac.removeAllItems();
+        cbbNSX.removeAllItems();
 
-        String maMS = sp.getIdMauSac().getTen();
-        cbbMauSac.setSelectedItem(maMS);
+        for (DongSPCustom qLDongSP : listQLDSP) {
+            cbbDongSP.addItem(qLDongSP.getTen());
+        }
+        for (MauSacCustom qLMauSac : listQLMS) {
+            cbbMauSac.addItem(qLMauSac.getTen());
+        }
+        for (NSXCustom qlnsx : listQLNSX) {
+            cbbNSX.addItem(qlnsx.getTen());
+        }
+        for (SanPhamCustom qLSanPham : listQLSP) {
+            cbbSP.addItem(qLSanPham.getTen());
+        }
 
-        String maNSX = sp.getIdNsx().getTen();
-        cbbNSX.setSelectedItem(maNSX);
-
-        String maSP = sp.getIdSP().getTen();
-        cbbSP.setSelectedItem(maSP);
-
-//        BigDecimal giaNhap = BigDecimal.valueOf(Double.parseDouble(txtGiaNhap.getText()));
-//        BigDecimal giaBan = BigDecimal.valueOf(Double.parseDouble(txtGiaBan.getText()));
     }
 
     @SuppressWarnings("unchecked")
@@ -351,7 +324,7 @@ public class FormChiTietSP extends javax.swing.JFrame {
         int chon = jTable1.getSelectedRow();
         fillData(chon);
     }//GEN-LAST:event_jTable1MouseClicked
-    private ChiTietSP checkAdd() {
+    private ChiTietSPCustom checkValidate() {
 
         String nam = txtNamBH.getText();
         if (nam.isEmpty()) {
@@ -386,79 +359,60 @@ public class FormChiTietSP extends javax.swing.JFrame {
         String nsx = cbbNSX.getSelectedItem().toString();
         String sp = cbbSP.getSelectedItem().toString();
 
-//        ChiTietSP ctSP = new ChiTietSP(giaBan, giaNhap, moTa, Integer.parseInt(nam), Integer.parseInt(soLuong), dSP, mauSac, nsx, sp);
-        ChiTietSP ctSP = new ChiTietSP(giaBan, giaNhap, moTa, Integer.parseInt(nam), Integer.parseInt(soLuong),
-                mapDong.get(dSP),
-                mapMS.get(mauSac), mapNSX.get(nsx), mapSP.get(sp));
-        return ctSP;
+//        ChiTietSP ctSP = new ChiTietSP(giaBan, giaNhap, moTa, , , dSP, mauSac, nsx, sp);
+        ChiTietSPCustom qlctsp = new ChiTietSPCustom();
+        qlctsp.setGiaBan(giaNhap);
+        qlctsp.setGiaNhap(giaBan);
+        qlctsp.setMoTa(moTa);
+        qlctsp.setNamBH(Integer.parseInt(nam));
+        qlctsp.setSoLuongTon(Integer.parseInt(soLuong));
+        qlctsp.setIdDongSP(dsps.finId(dsps.getAll().get(cbbDongSP.getSelectedIndex()).getId()));
+        qlctsp.setIdMauSac(mss.findId(mss.getAll().get(cbbMauSac.getSelectedIndex()).getId()));
+        qlctsp.setIdNsx(nsxs.findId(nsxs.getAll().get(cbbNSX.getSelectedIndex()).getId()));
+        qlctsp.setIdSP(sps.findId(sps.getAll().get(cbbSP.getSelectedIndex()).getId()));
+        return qlctsp;
     }
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        ChiTietSP ctSP = checkAdd();
+        ChiTietSPCustom ctSP = checkValidate();
         if (ctSP == null) {
             return;
         }
-        serviceCT.them(ctSP);
+        service.them(ctSP);
+        listQLCTSP = service.getList();
+        showData(listQLCTSP);
         JOptionPane.showMessageDialog(this, "Thêm thành công");
-
-        listCT = serviceCT.getAll();
-        showData(listCT);
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         int row = jTable1.getSelectedRow();
-        if(row == -1) {
+        if (row == -1) {
             JOptionPane.showMessageDialog(this, "Bạn phải chọn một dòng");
             return;
         }
-        UUID id = listCT.get(row + 1).getId();
-        JOptionPane.showMessageDialog(this, serviceCT.xoa(id));
-        listCT = serviceCT.getAll();
-        showData(listCT);
+        service.xoa(listQLCTSP.get(row).getId());
+        listQLCTSP.remove(row);
+        listQLCTSP = service.getList();
+        showData(listQLCTSP);
+        JOptionPane.showMessageDialog(this, "Xóa thành công");
     }//GEN-LAST:event_btnXoaActionPerformed
-    private ChiTietSP checkUpdate() {
-        String id = lblID.getText();
-        if (id.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Bạn chưa chọn dữ liệu.");
-            return null;
-        }
-        String nam = txtNamBH.getText();
-        
-        String moTa = txtMoTa.getText();
-        
-        String soLuong = txtSoLuongTon.getText();
-        
-        String giaNhapp = txtGiaNhap.getText();
-        
-        String giaBann = txtGiaBan.getText();
-        
-        BigDecimal giaNhap = BigDecimal.valueOf(Double.parseDouble(txtGiaNhap.getText()));
-        BigDecimal giaBan = BigDecimal.valueOf(Double.parseDouble(txtGiaBan.getText()));
 
-        String dSP = cbbDongSP.getSelectedItem().toString();
-        String mauSac = cbbMauSac.getSelectedItem().toString();
-        String nsx = cbbNSX.getSelectedItem().toString();
-        String sp = cbbSP.getSelectedItem().toString();
-
-//        ChiTietSP ctSP = new ChiTietSP(giaBan, giaNhap, moTa, Integer.parseInt(nam), Integer.parseInt(soLuong), dSP, mauSac, nsx, sp);
-        ChiTietSP ctSP = new ChiTietSP(giaBan, giaNhap, moTa, Integer.parseInt(nam), Integer.parseInt(soLuong),
-                mapDong.get(dSP),
-                mapMS.get(mauSac), mapNSX.get(nsx), mapSP.get(sp));
-        return ctSP;
-    }
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        ChiTietSP ct = checkUpdate();
+        ChiTietSPCustom ct = checkValidate();
         if (ct == null) {
             return;
         }
         int row = jTable1.getSelectedRow();
-//        if (row == - 1) {
-//            JOptionPane.showMessageDialog(this, "Bạn phải chọn một dòng");
-//            return;
-//        }
-        ct.setId(listCT.get(row + 1).getId());
-        JOptionPane.showMessageDialog(this, serviceCT.sua(ct));
-        listCT = serviceCT.getAll();
-        showData(listCT);
+        if (row == - 1) {
+            JOptionPane.showMessageDialog(this, "Bạn phải chọn một dòng");
+            return;
+        }
+        ChiTietSPCustom qlstsp = new ChiTietSPCustom();
+        ct.setId(qlstsp.getId());
+        service.sua(ct);
+
+        listQLCTSP = service.getList();
+        showData(listQLCTSP);
+        JOptionPane.showMessageDialog(this, "Sửa thành công");
     }//GEN-LAST:event_btnSuaActionPerformed
 
     public static void main(String args[]) {
@@ -475,20 +429,23 @@ public class FormChiTietSP extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormChiTietSP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChiTietSpForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormChiTietSP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChiTietSpForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormChiTietSP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChiTietSpForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormChiTietSP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChiTietSpForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FormChiTietSP().setVisible(true);
+                new ChiTietSpForm().setVisible(true);
             }
         });
     }
